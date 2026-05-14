@@ -1,0 +1,289 @@
+.view {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
+.boardWrapper {
+  flex: 1;
+  overflow: hidden;
+  min-height: 0;
+}
+
+.stateContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem;
+  gap: 1rem;
+  color: #64748b;
+}
+
+.spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid #e2e8f0;
+  border-top-color: #2563eb;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.errorBox {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+  padding: 1.5rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  max-width: 400px;
+  text-align: center;
+  color: #991b1b;
+}
+
+/* ── PlanSelector styles ───────────────────────────────────── */
+
+.planSelectorWrapper {
+  background: white;
+  border-bottom: 1px solid #e2e8f0;
+  padding: 0.75rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.planSelectorRow {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.planSelectorLeft {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.planSelectorRight {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.selectorLabel {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #374151;
+  white-space: nowrap;
+}
+
+.selectorSelect {
+  flex: 1;
+  min-width: 200px;
+  padding: 0.38rem 0.6rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  color: #1e293b;
+  background: white;
+}
+
+.selectorSelect:focus {
+  outline: none;
+  border-color: #2563eb;
+}
+
+.statusBadge {
+  font-size: 0.78rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.statusDraft {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.statusConfirmed {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.statusClosed {
+  background: #f1f5f9;
+  color: #475569;
+}
+
+.planNotes {
+  font-size: 0.8rem;
+  color: #64748b;
+  max-width: 280px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* New plan form */
+.newPlanForm {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: flex-end;
+  padding: 0.75rem;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+}
+
+.formLabel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #374151;
+}
+
+.formInput {
+  padding: 0.4rem 0.6rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  color: #1e293b;
+  background: white;
+  min-width: 160px;
+}
+
+.formInput:focus {
+  outline: none;
+  border-color: #2563eb;
+}
+
+.formActions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: flex-end;
+}
+
+.formError {
+  width: 100%;
+  font-size: 0.82rem;
+  color: #ef4444;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 5px;
+  padding: 0.35rem 0.6rem;
+  margin: 0;
+}
+
+/* ── Shared buttons ────────────────────────────────────────── */
+
+.btnPrimary {
+  padding: 0.42rem 1rem;
+  background: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+  white-space: nowrap;
+}
+
+.btnPrimary:hover:not(:disabled) {
+  background: #1d4ed8;
+}
+
+.btnPrimary:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+
+.btnSecondary {
+  padding: 0.42rem 0.9rem;
+  background: white;
+  color: #374151;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background 0.15s;
+  white-space: nowrap;
+}
+
+.btnSecondary:hover:not(:disabled) {
+  background: #f1f5f9;
+}
+
+.btnSecondary:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+
+.btnWarning {
+  padding: 0.42rem 0.9rem;
+  background: #f59e0b;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+  white-space: nowrap;
+}
+
+.btnWarning:hover:not(:disabled) {
+  background: #d97706;
+}
+
+.btnWarning:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+
+/* ── Two-column layout ─────────────────────────────────────── */
+
+.content {
+  display: grid;
+  grid-template-columns: 340px 1fr;
+  gap: 1rem;
+  padding: 1rem;
+  flex: 1;
+  overflow: hidden;
+  min-height: 0;
+}
+
+.backlogCol,
+.teamCol {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+@media (max-width: 720px) {
+  .content {
+    grid-template-columns: 1fr;
+    overflow: auto;
+  }
+  .backlogCol,
+  .teamCol {
+    min-height: 300px;
+    max-height: 50vh;
+  }
+}

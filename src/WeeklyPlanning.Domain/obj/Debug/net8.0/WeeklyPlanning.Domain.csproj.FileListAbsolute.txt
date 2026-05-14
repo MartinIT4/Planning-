@@ -1,0 +1,14 @@
+C:\Desarrollos\weekly-planning-pm\src\WeeklyPlanning.Domain\bin\Debug\net8.0\WeeklyPlanning.Domain.deps.json
+C:\Desarrollos\weekly-planning-pm\src\WeeklyPlanning.Domain\bin\Debug\net8.0\WeeklyPlanning.Domain.dll
+C:\Desarrollos\weekly-planning-pm\src\WeeklyPlanning.Domain\bin\Debug\net8.0\WeeklyPlanning.Domain.pdb
+C:\Desarrollos\weekly-planning-pm\src\WeeklyPlanning.Domain\obj\Debug\net8.0\WeeklyPlanning.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Desarrollos\weekly-planning-pm\src\WeeklyPlanning.Domain\obj\Debug\net8.0\WeeklyPlanning.Domain.AssemblyInfoInputs.cache
+C:\Desarrollos\weekly-planning-pm\src\WeeklyPlanning.Domain\obj\Debug\net8.0\WeeklyPlanning.Domain.AssemblyInfo.cs
+C:\Desarrollos\weekly-planning-pm\src\WeeklyPlanning.Domain\obj\Debug\net8.0\WeeklyPlanning.Domain.csproj.CoreCompileInputs.cache
+C:\Desarrollos\weekly-planning-pm\src\WeeklyPlanning.Domain\obj\Debug\net8.0\WeeklyPlanning.Domain.dll
+C:\Desarrollos\weekly-planning-pm\src\WeeklyPlanning.Domain\obj\Debug\net8.0\refint\WeeklyPlanning.Domain.dll
+C:\Desarrollos\weekly-planning-pm\src\WeeklyPlanning.Domain\obj\Debug\net8.0\WeeklyPlanning.Domain.pdb
+C:\Desarrollos\weekly-planning-pm\src\WeeklyPlanning.Domain\obj\Debug\net8.0\ref\WeeklyPlanning.Domain.dll
+C:\Desarrollos\weekly-planning-pm\build-check\api\WeeklyPlanning.Domain.deps.json
+C:\Desarrollos\weekly-planning-pm\build-check\api\WeeklyPlanning.Domain.dll
+C:\Desarrollos\weekly-planning-pm\build-check\api\WeeklyPlanning.Domain.pdb

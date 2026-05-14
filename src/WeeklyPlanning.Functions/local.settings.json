@@ -1,0 +1,17 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+    "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated",
+
+    "ExternalApi__BaseUrl": "https://chrobi-pre-prod.azurewebsites.net/api",
+    "ExternalApi__ApiKey": "<your-api-key-here>",
+    "ExternalApi__TimeoutSeconds": "30",
+    "ExternalApi__MaxRetries": "3",
+
+    "SyncSchedule": "0 0 7,13 * * 1-5"
+  },
+  "ConnectionStrings": {
+    "DefaultConnection": "Server=(localdb)\\mssqllocaldb;Database=WeeklyPlanningDb_Dev;Trusted_Connection=True;MultipleActiveResultSets=true"
+  }
+}

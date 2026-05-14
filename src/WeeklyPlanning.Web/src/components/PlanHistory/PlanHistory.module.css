@@ -1,0 +1,151 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem 1.5rem 1.5rem;
+  min-height: 100%;
+  color: #1e293b;
+}
+
+.planCard {
+  background: #fff;
+  border: 1px solid #dbeafe;
+  border-radius: 10px;
+  box-shadow: 0 1px 4px rgba(15, 23, 42, 0.06);
+  overflow: hidden;
+}
+
+.planHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.1rem;
+}
+
+.statusBadge {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 0.2rem 0.65rem;
+  font-size: 0.76rem;
+  font-weight: 700;
+}
+
+.statusDraft {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.statusConfirmed {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.statusClosed {
+  background: #e2e8f0;
+  color: #475569;
+}
+
+.sentCount {
+  font-size: 0.84rem;
+  color: #64748b;
+}
+
+.expandBtn {
+  border: 1px solid #bfdbfe;
+  background: #eff6ff;
+  color: #1d4ed8;
+  border-radius: 6px;
+  padding: 0.35rem 0.7rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.expandBtn:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.assignmentList {
+  border-top: 1px solid #e2e8f0;
+  padding: 1rem 1.1rem;
+  background: #f8fafc;
+}
+
+.personGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.personGroup + .personGroup {
+  margin-top: 1rem;
+}
+
+.personLabel {
+  display: flex;
+  align-items: center;
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: #1d4ed8;
+  cursor: pointer;
+  user-select: none;
+}
+
+.assignmentRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  padding: 0.55rem 0.7rem;
+  border: 1px solid #dbeafe;
+  border-radius: 8px;
+  background: #fff;
+  font-size: 0.88rem;
+}
+
+.checkbox {
+  margin-top: 0.15rem;
+  accent-color: #3b82f6;
+}
+
+.actionBar {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  padding: 0.9rem 1rem;
+  background: rgba(255, 255, 255, 0.96);
+  border: 1px solid #dbeafe;
+  border-radius: 10px;
+  box-shadow: 0 1px 4px rgba(15, 23, 42, 0.05);
+}
+
+.copyBtn {
+  border: 1px solid #3b82f6;
+  background: #3b82f6;
+  color: #fff;
+  border-radius: 6px;
+  padding: 0.45rem 0.9rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.copyBtn:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+
+.noPlans {
+  padding: 1rem;
+  border-radius: 8px;
+  background: #fff;
+  border: 1px dashed #cbd5e1;
+  color: #64748b;
+  text-align: center;
+}

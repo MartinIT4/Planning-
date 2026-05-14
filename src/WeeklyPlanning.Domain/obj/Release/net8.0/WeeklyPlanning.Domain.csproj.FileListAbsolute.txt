@@ -1,0 +1,1 @@
+C:\Desarrollos\weekly-planning-pm\src\WeeklyPlanning.Domain\obj\Release\net8.0\WeeklyPlanning.Domain.GeneratedMSBuildEditorConfig.editorconfig

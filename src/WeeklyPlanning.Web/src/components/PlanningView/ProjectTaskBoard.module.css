@@ -1,0 +1,401 @@
+.board {
+  display: grid;
+  grid-template-columns: 1fr 280px;
+  gap: 0.75rem;
+  height: 100%;
+  padding: 0.75rem;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.leftPanel,
+.rightPanel {
+  display: flex;
+  flex-direction: column;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  overflow: hidden;
+  min-height: 0;
+}
+
+.panelHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #e2e8f0;
+  flex-shrink: 0;
+}
+
+.panelTitle {
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #64748b;
+}
+
+.filterInput {
+  flex: 1;
+  padding: 0.35rem 0.6rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  background: #f8fafc;
+}
+.filterInput:focus { outline: none; border-color: #2563eb; }
+
+.empty {
+  padding: 2.5rem;
+  text-align: center;
+  color: #94a3b8;
+  font-size: 0.875rem;
+  line-height: 1.8;
+}
+
+/* ── Card grid ── */
+.cardGrid {
+  overflow-y: auto;
+  flex: 1;
+  padding: 0.75rem;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+  align-content: start;
+  align-items: start;
+}
+
+/* ── Project card ── */
+.projectCard {
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  background: white;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+.projectCard:hover { border-color: #93c5fd; box-shadow: 0 2px 8px rgba(37,99,235,0.08); }
+
+.cardHeader {
+  padding: 0.75rem 1rem 0.6rem;
+  border-bottom: 1px solid #f1f5f9;
+  background: #f8fafc;
+}
+
+.cardTitleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.cardTitleActions {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-shrink: 0;
+}
+
+/* ── Botón + en header ── */
+.addBtn {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 2px solid #2563eb;
+  background: white;
+  color: #2563eb;
+  font-size: 1.1rem;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s, color 0.15s;
+  flex-shrink: 0;
+}
+.addBtn:hover:not(:disabled) { background: #2563eb; color: white; }
+.addBtn:disabled { opacity: 0.35; cursor: default; border-color: #94a3b8; color: #94a3b8; }
+.addBtnActive { background: #fee2e2; border-color: #ef4444; color: #ef4444; }
+.addBtnActive:hover:not(:disabled) { background: #ef4444; color: white; }
+
+.cardTitle {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.cardTotalHours {
+  font-size: 0.78rem;
+  background: #dbeafe;
+  color: #1d4ed8;
+  padding: 0.15rem 0.55rem;
+  border-radius: 9999px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.cardDesc {
+  margin: 0.3rem 0 0;
+  font-size: 0.78rem;
+  color: #64748b;
+  line-height: 1.4;
+}
+
+/* ── Member list ── */
+.memberList {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  flex: 1;
+}
+
+.noMembers {
+  padding: 0.75rem 1rem;
+  font-size: 0.8rem;
+  color: #94a3b8;
+  margin: 0;
+}
+
+.memberRow {
+  padding: 0.6rem 1rem;
+  border-bottom: 1px solid #f1f5f9;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  position: relative;
+}
+.memberRow:last-child { border-bottom: none; }
+
+.memberInfo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.memberName {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.memberHours {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #2563eb;
+  background: #eff6ff;
+  padding: 0.1rem 0.45rem;
+  border-radius: 9999px;
+}
+
+.memberDesc {
+  margin: 0;
+  font-size: 0.78rem;
+  color: #475569;
+  line-height: 1.4;
+}
+
+.removeBtn {
+  align-self: flex-start;
+  margin-top: 0.2rem;
+  background: none;
+  border: 1px solid #fca5a5;
+  color: #ef4444;
+  border-radius: 4px;
+  font-size: 0.72rem;
+  padding: 0.1rem 0.45rem;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.removeBtn:hover { background: #fef2f2; }
+
+/* ── Add member form ── */
+.addForm {
+  padding: 0.75rem 1rem;
+  border-top: 2px solid #2563eb;
+  background: #f8fafc;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.addFormRow {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.formSelect {
+  flex: 1;
+  min-width: 0;
+  padding: 0.35rem 0.5rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 5px;
+  font-size: 0.8rem;
+  background: white;
+}
+.formSelect:focus { outline: none; border-color: #2563eb; }
+
+.hoursGroup {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  flex-shrink: 0;
+}
+
+.hoursInput {
+  width: 52px;
+  padding: 0.35rem 0.4rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 5px;
+  font-size: 0.8rem;
+  text-align: center;
+}
+.hoursInput:focus { outline: none; border-color: #2563eb; }
+
+.hLabel { font-size: 0.78rem; color: #94a3b8; }
+.overWarn { font-size: 0.85rem; cursor: default; }
+
+.descInput {
+  width: 100%;
+  padding: 0.4rem 0.6rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 5px;
+  font-size: 0.82rem;
+  resize: vertical;
+  font-family: inherit;
+  box-sizing: border-box;
+}
+.descInput:focus { outline: none; border-color: #2563eb; }
+
+.formError {
+  font-size: 0.78rem;
+  color: #ef4444;
+  margin: 0;
+  padding: 0.25rem 0.5rem;
+  background: #fef2f2;
+  border-radius: 4px;
+}
+
+.addFormActions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.btnPrimary {
+  padding: 0.4rem 1rem;
+  background: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.btnPrimary:hover:not(:disabled) { background: #1d4ed8; }
+.btnPrimary:disabled { opacity: 0.5; cursor: default; }
+
+.btnSecondary {
+  padding: 0.4rem 0.9rem;
+  background: white;
+  color: #374151;
+  border: 1px solid #cbd5e1;
+  border-radius: 5px;
+  font-size: 0.82rem;
+  cursor: pointer;
+}
+.btnSecondary:hover:not(:disabled) { background: #f1f5f9; }
+.btnSecondary:disabled { opacity: 0.5; cursor: default; }
+
+/* ── Right panel: team ── */
+.teamList {
+  overflow-y: auto;
+  flex: 1;
+  padding: 0.6rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.personCard {
+  border: 1px solid #e2e8f0;
+  border-radius: 7px;
+  padding: 0.65rem 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.personHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.personName {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.personHours {
+  font-size: 0.8rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.capBarTrack {
+  height: 7px;
+  background: #e2e8f0;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.capBarFill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.3s ease;
+  min-width: 2px;
+}
+
+.noAssign {
+  font-size: 0.75rem;
+  color: #94a3b8;
+  margin: 0;
+}
+
+.personAssignList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.personAssignItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.2rem 0.4rem;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 4px;
+  font-size: 0.78rem;
+}
+
+.paTitle {
+  flex: 1;
+  color: #334155;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.paHours {
+  color: #2563eb;
+  font-weight: 700;
+  white-space: nowrap;
+  margin-left: 0.4rem;
+}

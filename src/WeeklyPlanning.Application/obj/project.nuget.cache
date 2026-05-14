@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "WzdW/t6+9Z4=",
+  "success": true,
+  "projectFilePath": "C:\\Desarrollos\\weekly-planning-pm\\src\\WeeklyPlanning.Application\\WeeklyPlanning.Application.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\MartinRamirez\\.nuget\\packages\\microsoft.extensions.configuration.abstractions\\8.0.0\\microsoft.extensions.configuration.abstractions.8.0.0.nupkg.sha512",
+    "C:\\Users\\MartinRamirez\\.nuget\\packages\\microsoft.extensions.primitives\\8.0.0\\microsoft.extensions.primitives.8.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}
