@@ -25,10 +25,10 @@ public sealed class ChobiTokenService
         _logger = logger;
         _baseUrl = configuration["ExternalApi:BaseUrl"]?.TrimEnd('/') + "/"
             ?? throw new InvalidOperationException("ExternalApi:BaseUrl is required.");
-        _accessToken = configuration["ExternalApi:ApiKey"]
-            ?? throw new InvalidOperationException("ExternalApi:ApiKey is required.");
-        _refreshToken = configuration["ExternalApi:RefreshToken"]
-            ?? throw new InvalidOperationException("ExternalApi:RefreshToken is required.");
+        _accessToken = (configuration["ExternalApi:ApiKey"]
+            ?? throw new InvalidOperationException("ExternalApi:ApiKey is required.")).Trim();
+        _refreshToken = (configuration["ExternalApi:RefreshToken"]
+            ?? throw new InvalidOperationException("ExternalApi:RefreshToken is required.")).Trim();
     }
 
     public string AccessToken => _accessToken;
