@@ -21,3 +21,4 @@ C:\Desarrollos\weekly-planning-pm\build-check\api\WeeklyPlanning.Infrastructure.
 C:\Desarrollos\weekly-planning-pm\build-check\api\WeeklyPlanning.Infrastructure.runtimeconfig.json
 C:\Desarrollos\weekly-planning-pm\build-check\api\WeeklyPlanning.Infrastructure.dll
 C:\Desarrollos\weekly-planning-pm\build-check\api\WeeklyPlanning.Infrastructure.pdb
+C:\Desarrollos\weekly-planning-pm\src\WeeklyPlanning.Infrastructure\obj\Debug\net8.0\WeeklyPlanning.Infrastructure.sourcelink.json

@@ -12,3 +12,4 @@ C:\Desarrollos\weekly-planning-pm\src\WeeklyPlanning.Domain\obj\Debug\net8.0\ref
 C:\Desarrollos\weekly-planning-pm\build-check\api\WeeklyPlanning.Domain.deps.json
 C:\Desarrollos\weekly-planning-pm\build-check\api\WeeklyPlanning.Domain.dll
 C:\Desarrollos\weekly-planning-pm\build-check\api\WeeklyPlanning.Domain.pdb
+C:\Desarrollos\weekly-planning-pm\src\WeeklyPlanning.Domain\obj\Debug\net8.0\WeeklyPlanning.Domain.sourcelink.json

@@ -16,3 +16,4 @@ C:\Desarrollos\weekly-planning-pm\src\WeeklyPlanning.Application\obj\Debug\net8.
 C:\Desarrollos\weekly-planning-pm\build-check\api\WeeklyPlanning.Application.deps.json
 C:\Desarrollos\weekly-planning-pm\build-check\api\WeeklyPlanning.Application.dll
 C:\Desarrollos\weekly-planning-pm\build-check\api\WeeklyPlanning.Application.pdb
+C:\Desarrollos\weekly-planning-pm\src\WeeklyPlanning.Application\obj\Debug\net8.0\WeeklyPlanning.Application.sourcelink.json

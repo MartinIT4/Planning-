@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using WeeklyPlanning.API.Middleware;
 using WeeklyPlanning.Infrastructure;
 
@@ -45,10 +46,17 @@ builder.Services.AddCors(options =>
 });
 
 builder.Services.AddHealthChecks()
-    .AddDbContextCheck<WeeklyPlanning.Infrastructure.Persistence.WeeklyPlanningDbContext>(name: "sql-server");
+    .AddDbContextCheck<WeeklyPlanning.Infrastructure.Persistence.WeeklyPlanningDbContext>(name: "postgres");
 
 // ─── Pipeline ────────────────────────────────────────────────────────────────
 var app = builder.Build();
+
+// Auto-apply migrations on startup
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<WeeklyPlanning.Infrastructure.Persistence.WeeklyPlanningDbContext>();
+    db.Database.Migrate();
+}
 
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 

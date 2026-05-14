@@ -18,11 +18,11 @@ public static class DependencyInjection
         IConfiguration? configuration = null)
     {
         services.AddDbContext<WeeklyPlanningDbContext>(options =>
-            options.UseSqlServer(connectionString, sql =>
-                sql.EnableRetryOnFailure(
+            options.UseNpgsql(connectionString, npgsql =>
+                npgsql.EnableRetryOnFailure(
                     maxRetryCount: 3,
                     maxRetryDelay: TimeSpan.FromSeconds(5),
-                    errorNumbersToAdd: null)));
+                    errorCodesToAdd: null)));
 
         services.AddScoped<IWeeklyPlanRepository, WeeklyPlanRepository>();
         services.AddScoped<IPersonRepository, PersonRepository>();
