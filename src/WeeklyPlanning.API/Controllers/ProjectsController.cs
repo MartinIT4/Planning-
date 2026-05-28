@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WeeklyPlanning.Domain.Entities;
 using WeeklyPlanning.Domain.Interfaces;
@@ -5,6 +6,7 @@ using WeeklyPlanning.Domain.Interfaces;
 namespace WeeklyPlanning.API.Controllers;
 
 [ApiController]
+[Authorize]
 [Route("api/projects")]
 [Produces("application/json")]
 public class ProjectsController : ControllerBase

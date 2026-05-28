@@ -1,4 +1,7 @@
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using WeeklyPlanning.API.Middleware;
 using WeeklyPlanning.Infrastructure;
 
@@ -47,6 +50,36 @@ if (connectionString.StartsWith("postgres://") || connectionString.StartsWith("p
 
 builder.Services.AddInfrastructure(connectionString, builder.Configuration);
 
+var jwtSecret = builder.Configuration["Jwt:Secret"]
+    ?? throw new InvalidOperationException("Jwt:Secret is required.");
+var jwtIssuer = builder.Configuration["Jwt:Issuer"] ?? "WeeklyPlanningApp";
+var jwtSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSecret));
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidIssuer = jwtIssuer,
+            ValidateAudience = false,
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = jwtSigningKey,
+            ValidateLifetime = true,
+            ClockSkew = TimeSpan.FromMinutes(2)
+        };
+    });
+builder.Services.AddAuthorization();
+builder.Services.AddHttpClient("ChrobiAuth", client =>
+{
+    var baseUrl = builder.Configuration["ExternalApi:BaseUrl"]?.TrimEnd('/') + "/"
+        ?? throw new InvalidOperationException("ExternalApi:BaseUrl is required.");
+    client.BaseAddress = new Uri(baseUrl);
+    client.DefaultRequestHeaders.Add("Accept", "application/json");
+    var timeoutSeconds = int.TryParse(builder.Configuration["ExternalApi:TimeoutSeconds"], out var seconds) ? seconds : 30;
+    client.Timeout = TimeSpan.FromSeconds(timeoutSeconds);
+});
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
@@ -86,6 +119,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseCors("AllowFrontend");
+app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 app.MapHealthChecks("/health");

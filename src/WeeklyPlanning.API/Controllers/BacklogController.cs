@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WeeklyPlanning.Domain.Entities;
 using WeeklyPlanning.Domain.Interfaces;
@@ -6,6 +7,7 @@ using WeeklyPlanning.Infrastructure.Persistence;
 namespace WeeklyPlanning.API.Controllers;
 
 [ApiController]
+[Authorize]
 [Route("api/backlog")]
 [Produces("application/json")]
 public class BacklogController : ControllerBase

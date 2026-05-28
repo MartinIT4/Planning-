@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WeeklyPlanning.Application.DTOs;
 using WeeklyPlanning.Application.Services;
@@ -5,6 +6,7 @@ using WeeklyPlanning.Application.Services;
 namespace WeeklyPlanning.API.Controllers;
 
 [ApiController]
+[Authorize]
 [Route("api/personal-plans")]
 [Produces("application/json")]
 public class PersonalPlansController : ControllerBase

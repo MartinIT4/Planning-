@@ -5,9 +5,11 @@ export type TabId = 'planning' | 'board' | 'personal' | 'history' | 'config';
 interface NavBarProps {
   activeTab: TabId;
   onTabChange: (tab: TabId) => void;
+  userName: string;
+  onLogout: () => void;
 }
 
-export function NavBar({ activeTab, onTabChange }: NavBarProps) {
+export function NavBar({ activeTab, onTabChange, userName, onLogout }: NavBarProps) {
   const tabs: { id: TabId; label: string }[] = [
     { id: 'config', label: '⚙️ Configuración' },
     { id: 'planning', label: '📅 Planificación' },
@@ -29,6 +31,13 @@ export function NavBar({ activeTab, onTabChange }: NavBarProps) {
             {t.label}
           </button>
         ))}
+      </div>
+      <div className={styles.spacer} />
+      <div className={styles.actions}>
+        <span className={styles.userName}>{userName}</span>
+        <button type="button" className={styles.logoutButton} onClick={onLogout}>
+          Salir
+        </button>
       </div>
     </nav>
   );

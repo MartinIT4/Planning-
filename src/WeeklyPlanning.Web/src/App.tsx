@@ -1,11 +1,13 @@
 import { useState, useEffect, useCallback } from 'react';
+import { AuthProvider, useAuth } from './auth/AuthContext';
+import { personsApi } from './api/weeklyPlanApi';
+import { LoginPage } from './components/LoginPage/LoginPage';
 import { NavBar, type TabId } from './components/Layout/NavBar';
 import { ConfigView } from './components/ConfigView/ConfigView';
 import { PlanningView } from './components/PlanningView/PlanningView';
 import { PersonalWeeklyPlan } from './components/PersonalWeeklyPlan';
 import { TeamWeeklyBoard } from './components/TeamWeeklyBoard/TeamWeeklyBoard';
 import { PlanHistory } from './components/PlanHistory/PlanHistory';
-import { personsApi } from './api/weeklyPlanApi';
 import type { PersonDto } from './types/weeklyPlan';
 
 function currentMonday(): string {
@@ -40,7 +42,7 @@ function formatWeekRange(mondayStr: string): string {
   return `${fmt(start)} – ${fmtYear(end)}`;
 }
 
-export default function App() {
+function AppShell({ userName, onLogout }: { userName: string; onLogout: () => void }) {
   const [tab, setTab] = useState<TabId>('config');
   const [boardWeek, setBoardWeek] = useState<string>(currentMonday());
   const [personalWeek, setPersonalWeek] = useState<string>(currentMonday());
@@ -68,7 +70,7 @@ export default function App() {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100vh', fontFamily: 'system-ui, sans-serif', background: '#f8fafc' }}>
-      <NavBar activeTab={tab} onTabChange={setTab} />
+      <NavBar activeTab={tab} onTabChange={setTab} userName={userName} onLogout={onLogout} />
 
       <div style={{ flex: 1, overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
         {tab === 'config' && <ConfigView />}
@@ -185,5 +187,23 @@ export default function App() {
         )}
       </div>
     </div>
+  );
+}
+
+function AppContent() {
+  const { user, logout } = useAuth();
+
+  if (!user) {
+    return <LoginPage />;
+  }
+
+  return <AppShell userName={user.name} onLogout={logout} />;
+}
+
+export default function App() {
+  return (
+    <AuthProvider>
+      <AppContent />
+    </AuthProvider>
   );
 }

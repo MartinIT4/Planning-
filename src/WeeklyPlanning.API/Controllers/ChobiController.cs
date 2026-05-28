@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WeeklyPlanning.Application.DTOs;
 using WeeklyPlanning.Application.Interfaces;
@@ -7,6 +8,7 @@ using WeeklyPlanning.Domain.Interfaces;
 namespace WeeklyPlanning.API.Controllers;
 
 [ApiController]
+[Authorize]
 [Route("api/chrobi")]
 [Produces("application/json")]
 public class ChobiController : ControllerBase

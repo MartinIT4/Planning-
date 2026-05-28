@@ -1,14 +1,29 @@
 import type { ChobiProjectDto, ChobiSyncResultDto, ChobiUserDto } from '../types/chrobi';
 import type { PersonDto } from '../types/weeklyPlan';
+import { getToken, handleUnauthorized } from './weeklyPlanApi';
 import type { ProjectDto } from './weeklyPlanApi';
 
 const BASE_URL = import.meta.env.VITE_API_BASE_URL ?? '/api';
 
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
+  const headers = new Headers(init?.headers ?? {});
+  headers.set('Content-Type', 'application/json');
+  headers.set('Accept', 'application/json');
+
+  const token = getToken();
+  if (token) {
+    headers.set('Authorization', `Bearer ${token}`);
+  }
+
   const res = await fetch(`${BASE_URL}${path}`, {
-    headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
     ...init,
+    headers,
   });
+
+  if (res.status === 401) {
+    handleUnauthorized();
+    throw new Error('Sesión expirada.');
+  }
 
   if (!res.ok) {
     const body = await res.text().catch(() => '');
