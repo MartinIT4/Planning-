@@ -134,6 +134,22 @@
   white-space: nowrap;
 }
 
+.editBtn {
+  padding: 0.1rem 0.35rem;
+  background: none;
+  border: 1px solid #93c5fd;
+  color: #2563eb;
+  border-radius: 4px;
+  font-size: 0.72rem;
+  cursor: pointer;
+  line-height: 1;
+  transition: background 0.15s;
+}
+
+.editBtn:hover {
+  background: #eff6ff;
+}
+
 .removeBtn {
   padding: 0.1rem 0.35rem;
   background: none;

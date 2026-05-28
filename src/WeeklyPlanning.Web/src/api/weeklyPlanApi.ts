@@ -81,6 +81,17 @@ export const weeklyPlanApi = {
       body: JSON.stringify(req),
     }),
 
+  /** Actualiza una asignación existente (título, horas, notas). */
+  updateAssignment: (
+    planId: string,
+    assignId: string,
+    req: { taskTitle: string; plannedHours: number; notes?: string }
+  ) =>
+    request<TaskAssignmentDto>(`/weekly-plans/${planId}/assignments/${assignId}`, {
+      method: 'PUT',
+      body: JSON.stringify(req),
+    }),
+
   /** Elimina una asignación del plan. */
   removeAssignment: (planId: string, assignId: string) =>
     request<void>(`/weekly-plans/${planId}/assignments/${assignId}`, {
