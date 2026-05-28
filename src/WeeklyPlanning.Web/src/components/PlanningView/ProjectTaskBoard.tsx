@@ -2,6 +2,7 @@ import { useState } from 'react';
 import type { PersonDto, WeeklyPlanDto, TaskAssignmentDto } from '../../types/weeklyPlan';
 import type { ProjectDto } from '../../api/weeklyPlanApi';
 import { weeklyPlanApi } from '../../api/weeklyPlanApi';
+import { EditAssignmentModal } from './EditAssignmentModal';
 import styles from './ProjectTaskBoard.module.css';
 
 interface Props {
@@ -130,7 +131,15 @@ interface ProjectCardProps {
 
 function ProjectCard({ project, assignments, persons, plan, onPlanUpdated }: ProjectCardProps) {
   const [showForm, setShowForm] = useState(false);
+  const [editingAssignment, setEditingAssignment] = useState<TaskAssignmentDto | null>(null);
   const totalHours = assignments.reduce((s, a) => s + a.plannedHours, 0);
+
+  const handleEditSaved = async () => {
+    if (!plan) return;
+    setEditingAssignment(null);
+    const updated = await weeklyPlanApi.getById(plan.id);
+    onPlanUpdated(updated);
+  };
 
   const handleAdded = async () => {
     if (!plan) return;
@@ -202,14 +211,31 @@ function ProjectCard({ project, assignments, persons, plan, onPlanUpdated }: Pro
               <span className={styles.memberHours}>{a.plannedHours}h</span>
             </div>
             {a.notes && <p className={styles.memberDesc}>{a.notes}</p>}
-            <button
-              className={styles.removeBtn}
-              onClick={() => handleRemove(a.id)}
-              title="Quitar integrante"
-            >✕ Quitar</button>
+            <div className={styles.memberActions}>
+              <button
+                className={styles.editBtn}
+                onClick={() => setEditingAssignment(a)}
+                title="Editar asignación"
+              >✎ Editar</button>
+              <button
+                className={styles.removeBtn}
+                onClick={() => handleRemove(a.id)}
+                title="Quitar integrante"
+              >✕ Quitar</button>
+            </div>
           </div>
         ))}
       </div>
+
+      {editingAssignment && plan && (
+        <EditAssignmentModal
+          assignment={editingAssignment}
+          persons={persons}
+          plan={plan}
+          onSaved={handleEditSaved}
+          onClose={() => setEditingAssignment(null)}
+        />
+      )}
     </div>
   );
 }

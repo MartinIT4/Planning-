@@ -210,6 +210,24 @@
 }
 .removeBtn:hover { background: #fef2f2; }
 
+.memberActions {
+  display: flex;
+  gap: 0.35rem;
+  margin-top: 0.2rem;
+}
+
+.editBtn {
+  background: none;
+  border: 1px solid #93c5fd;
+  color: #2563eb;
+  border-radius: 4px;
+  font-size: 0.72rem;
+  padding: 0.1rem 0.45rem;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.editBtn:hover { background: #eff6ff; }
+
 /* ── Add member form ── */
 .addForm {
   padding: 0.75rem 1rem;
