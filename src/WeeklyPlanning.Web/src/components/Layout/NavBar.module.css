@@ -20,12 +20,12 @@
 }
 
 .brandLogo {
-  height: 32px;
-  width: 32px;
+  height: 34px;
+  width: auto;
   object-fit: contain;
   border-radius: 6px;
   background: white;
-  padding: 2px;
+  padding: 4px 6px;
   flex-shrink: 0;
 }
 
