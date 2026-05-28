@@ -143,10 +143,6 @@ export function TeamWeeklyBoard({ weekStartDate }: TeamWeeklyBoardProps) {
       const name = assignments[0].personName;
       const totalHours = assignments.reduce((s, a) => s + a.plannedHours, 0);
       const tasksHtml = assignments.map(a => {
-        const sent = a.sentToExternalAt != null;
-        const badge = sent
-          ? `<span style="background:#dcfce7;color:#16a34a;border-radius:4px;padding:1px 7px;font-size:11px;font-weight:700;">✓ Enviada</span>`
-          : `<span style="background:#fef9c3;color:#854d0e;border-radius:4px;padding:1px 7px;font-size:11px;font-weight:700;">Pendiente</span>`;
         const notes = a.notes ? `<p style="margin:4px 0 0;font-size:12px;color:#475569;">${a.notes}</p>` : '';
         return `
           <div style="background:white;border:1px solid #e2e8f0;border-radius:8px;padding:10px 12px;margin-bottom:8px;">
@@ -155,7 +151,6 @@ export function TeamWeeklyBoard({ weekStartDate }: TeamWeeklyBoardProps) {
               <span style="font-size:13px;font-weight:700;color:#2563eb;white-space:nowrap;">${a.plannedHours}h</span>
             </div>
             ${notes}
-            <div style="margin-top:6px;">${badge}</div>
           </div>`;
       }).join('');
 
