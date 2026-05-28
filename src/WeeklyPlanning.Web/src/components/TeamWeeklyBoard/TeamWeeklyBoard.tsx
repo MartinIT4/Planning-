@@ -132,6 +132,79 @@ export function TeamWeeklyBoard({ weekStartDate }: TeamWeeklyBoardProps) {
     sendingRef.current = false;
   };
 
+  const handleDownloadHtml = () => {
+    if (!plan) return;
+
+    const weekLabel = weekStartDate
+      ? new Date(weekStartDate + 'T12:00:00').toLocaleDateString('es-AR', { day: '2-digit', month: 'long', year: 'numeric' })
+      : weekStartDate;
+
+    const columnsHtml = Array.from(personGroups.entries()).map(([, assignments]) => {
+      const name = assignments[0].personName;
+      const totalHours = assignments.reduce((s, a) => s + a.plannedHours, 0);
+      const tasksHtml = assignments.map(a => {
+        const sent = a.sentToExternalAt != null;
+        const badge = sent
+          ? `<span style="background:#dcfce7;color:#16a34a;border-radius:4px;padding:1px 7px;font-size:11px;font-weight:700;">✓ Enviada</span>`
+          : `<span style="background:#fef9c3;color:#854d0e;border-radius:4px;padding:1px 7px;font-size:11px;font-weight:700;">Pendiente</span>`;
+        const notes = a.notes ? `<p style="margin:4px 0 0;font-size:12px;color:#475569;">${a.notes}</p>` : '';
+        return `
+          <div style="background:white;border:1px solid #e2e8f0;border-radius:8px;padding:10px 12px;margin-bottom:8px;">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;">
+              <span style="font-size:13px;font-weight:600;color:#1e293b;flex:1;">${a.taskTitle}</span>
+              <span style="font-size:13px;font-weight:700;color:#2563eb;white-space:nowrap;">${a.plannedHours}h</span>
+            </div>
+            ${notes}
+            <div style="margin-top:6px;">${badge}</div>
+          </div>`;
+      }).join('');
+
+      return `
+        <div style="flex:1;min-width:200px;max-width:300px;background:#f8fafc;border-radius:10px;padding:12px;">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;padding-bottom:10px;border-bottom:2px solid #e2e8f0;">
+            <div style="width:36px;height:36px;border-radius:50%;background:#2563eb;color:white;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:16px;flex-shrink:0;">
+              ${name.charAt(0).toUpperCase()}
+            </div>
+            <div>
+              <div style="font-weight:700;font-size:14px;color:#1e293b;">${name}</div>
+              <div style="font-size:12px;color:#64748b;">${totalHours}h planificadas</div>
+            </div>
+          </div>
+          ${tasksHtml}
+        </div>`;
+    }).join('');
+
+    const html = `<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tablero de equipo — ${weekLabel}</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; margin: 0; padding: 24px; background: #f1f5f9; color: #1e293b; }
+    h1 { margin: 0 0 4px; font-size: 20px; font-weight: 700; }
+    .subtitle { color: #64748b; font-size: 13px; margin-bottom: 20px; }
+    .columns { display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-start; }
+    @media print { body { padding: 12px; background: white; } }
+  </style>
+</head>
+<body>
+  <h1>📋 Tablero de equipo</h1>
+  <p class="subtitle">Semana del ${weekLabel} · Generado el ${new Date().toLocaleDateString('es-AR', { day: '2-digit', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' })}</p>
+  <div class="columns">${columnsHtml}</div>
+</body>
+</html>`;
+
+    const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `tablero-equipo-${weekStartDate}.html`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
   const handleSendOne = async (assignmentId: string) => {
     if (!plan || sendingRef.current) return;
     setSendingTaskIds(prev => new Set(prev).add(assignmentId));
@@ -166,6 +239,16 @@ export function TeamWeeklyBoard({ weekStartDate }: TeamWeeklyBoardProps) {
             disabled={loading || isSending}
           >
             ↻ Actualizar
+          </button>
+
+          <button
+            type="button"
+            className={styles.secondaryBtn}
+            onClick={handleDownloadHtml}
+            disabled={!plan || loading}
+            title="Descargar tablero como archivo HTML"
+          >
+            📥 Descargar HTML
           </button>
 
           <span className={styles.selectedCount}>
