@@ -5,6 +5,7 @@ namespace WeeklyPlanning.Domain.Entities;
 public class Person
 {
     public Guid Id { get; private set; }
+    public string OwnerId { get; private set; } = default!;
     public string Name { get; private set; } = default!;
     public string Email { get; private set; } = default!;
     public decimal WeeklyCapacityHours { get; private set; }
@@ -15,8 +16,10 @@ public class Person
 
     private Person() { }
 
-    public static Person Create(string name, string? email, decimal weeklyCapacityHours = 40)
+    public static Person Create(string ownerId, string name, string? email, decimal weeklyCapacityHours = 40)
     {
+        if (string.IsNullOrWhiteSpace(ownerId))
+            throw new DomainException("El owner de la persona es requerido.");
         if (string.IsNullOrWhiteSpace(name))
             throw new DomainException("El nombre de la persona es requerido.");
         if (weeklyCapacityHours <= 0 || weeklyCapacityHours > 60)
@@ -29,6 +32,7 @@ public class Person
         return new Person
         {
             Id = Guid.NewGuid(),
+            OwnerId = ownerId.Trim().ToLowerInvariant(),
             Name = name.Trim(),
             Email = resolvedEmail,
             WeeklyCapacityHours = weeklyCapacityHours,

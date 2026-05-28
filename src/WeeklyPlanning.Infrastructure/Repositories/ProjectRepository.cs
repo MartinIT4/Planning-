@@ -17,9 +17,9 @@ public class ProjectRepository : IProjectRepository
     public async Task<Project?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default) =>
         await _context.Projects.FindAsync(new object[] { id }, cancellationToken);
 
-    public async Task<IEnumerable<Project>> GetAllActiveAsync(CancellationToken cancellationToken = default) =>
+    public async Task<IEnumerable<Project>> GetAllActiveAsync(string ownerId, CancellationToken cancellationToken = default) =>
         await _context.Projects
-            .Where(p => p.IsActive)
+            .Where(p => p.IsActive && p.OwnerId == ownerId.ToLowerInvariant())
             .OrderBy(p => p.Name)
             .ToListAsync(cancellationToken);
 

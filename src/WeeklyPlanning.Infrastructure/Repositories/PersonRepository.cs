@@ -21,9 +21,15 @@ public class PersonRepository : IPersonRepository
         await _context.Persons
             .FirstOrDefaultAsync(p => p.Email == email.ToLowerInvariant(), cancellationToken);
 
-    public async Task<IEnumerable<Person>> GetAllActiveAsync(CancellationToken cancellationToken = default) =>
+    public async Task<Person?> GetByEmailAsync(string email, string ownerId, CancellationToken cancellationToken = default) =>
         await _context.Persons
-            .Where(p => p.IsActive)
+            .FirstOrDefaultAsync(
+                p => p.Email == email.ToLowerInvariant() && p.OwnerId == ownerId.ToLowerInvariant(),
+                cancellationToken);
+
+    public async Task<IEnumerable<Person>> GetAllActiveAsync(string ownerId, CancellationToken cancellationToken = default) =>
+        await _context.Persons
+            .Where(p => p.IsActive && p.OwnerId == ownerId.ToLowerInvariant())
             .OrderBy(p => p.Name)
             .ToListAsync(cancellationToken);
 

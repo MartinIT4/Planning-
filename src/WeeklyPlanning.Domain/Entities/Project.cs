@@ -5,6 +5,7 @@ namespace WeeklyPlanning.Domain.Entities;
 public class Project
 {
     public Guid Id { get; private set; }
+    public string OwnerId { get; private set; } = default!;
     public string Name { get; private set; } = default!;
     public string? Description { get; private set; }
     public int? ChobiProjectId { get; private set; }
@@ -15,14 +16,17 @@ public class Project
 
     private Project() { }
 
-    public static Project Create(string name, string? description = null, bool isBillable = false)
+    public static Project Create(string ownerId, string name, string? description = null, bool isBillable = false)
     {
+        if (string.IsNullOrWhiteSpace(ownerId))
+            throw new DomainException("El owner del proyecto es requerido.");
         if (string.IsNullOrWhiteSpace(name))
             throw new DomainException("El nombre del proyecto es requerido.");
 
         return new Project
         {
             Id = Guid.NewGuid(),
+            OwnerId = ownerId.Trim().ToLowerInvariant(),
             Name = name.Trim(),
             Description = string.IsNullOrWhiteSpace(description) ? null : description.Trim(),
             IsActive = true,

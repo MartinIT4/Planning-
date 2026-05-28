@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using WeeklyPlanning.Application.Interfaces;
 using WeeklyPlanning.Domain.Entities;
 using WeeklyPlanning.Domain.Interfaces;
 
@@ -12,10 +13,12 @@ namespace WeeklyPlanning.API.Controllers;
 public class ProjectsController : ControllerBase
 {
     private readonly IProjectRepository _repository;
+    private readonly ICurrentUserService _currentUser;
 
-    public ProjectsController(IProjectRepository repository)
+    public ProjectsController(IProjectRepository repository, ICurrentUserService currentUser)
     {
         _repository = repository;
+        _currentUser = currentUser;
     }
 
     /// <summary>Retorna todos los proyectos activos.</summary>
@@ -23,7 +26,7 @@ public class ProjectsController : ControllerBase
     [ProducesResponseType(typeof(IEnumerable<ProjectDto>), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
     {
-        var projects = await _repository.GetAllActiveAsync(cancellationToken);
+        var projects = await _repository.GetAllActiveAsync(_currentUser.OwnerId, cancellationToken);
         return Ok(projects.Select(MapToDto));
     }
 
@@ -32,7 +35,7 @@ public class ProjectsController : ControllerBase
     [ProducesResponseType(typeof(ProjectDto), StatusCodes.Status201Created)]
     public async Task<IActionResult> Create([FromBody] CreateProjectRequest req, CancellationToken cancellationToken)
     {
-        var project = Project.Create(req.Name, req.Description, req.IsBillable);
+        var project = Project.Create(_currentUser.OwnerId, req.Name, req.Description, req.IsBillable);
         await _repository.AddAsync(project, cancellationToken);
         return CreatedAtAction(nameof(GetAll), MapToDto(project));
     }
@@ -44,7 +47,7 @@ public class ProjectsController : ControllerBase
     public async Task<IActionResult> Update(Guid id, [FromBody] UpdateProjectRequest req, CancellationToken cancellationToken)
     {
         var project = await _repository.GetByIdAsync(id, cancellationToken);
-        if (project is null) return NotFound();
+        if (project is null || !string.Equals(project.OwnerId, _currentUser.OwnerId, StringComparison.OrdinalIgnoreCase)) return NotFound();
 
         project.Update(req.Name, req.Description, req.IsBillable);
         await _repository.UpdateAsync(project, cancellationToken);
@@ -61,7 +64,7 @@ public class ProjectsController : ControllerBase
             return BadRequest(new { error = "El ChobiProjectId debe ser mayor a cero." });
 
         var project = await _repository.GetByIdAsync(id, cancellationToken);
-        if (project is null) return NotFound();
+        if (project is null || !string.Equals(project.OwnerId, _currentUser.OwnerId, StringComparison.OrdinalIgnoreCase)) return NotFound();
 
         project.SetChobiProjectId(request.ChobiProjectId);
         await _repository.UpdateAsync(project, cancellationToken);
@@ -75,7 +78,7 @@ public class ProjectsController : ControllerBase
     public async Task<IActionResult> Deactivate(Guid id, CancellationToken cancellationToken)
     {
         var project = await _repository.GetByIdAsync(id, cancellationToken);
-        if (project is null) return NotFound();
+        if (project is null || !string.Equals(project.OwnerId, _currentUser.OwnerId, StringComparison.OrdinalIgnoreCase)) return NotFound();
 
         project.Deactivate();
         await _repository.UpdateAsync(project, cancellationToken);

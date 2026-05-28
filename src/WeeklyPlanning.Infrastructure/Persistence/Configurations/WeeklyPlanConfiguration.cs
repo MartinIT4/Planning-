@@ -20,6 +20,10 @@ public class WeeklyPlanConfiguration : IEntityTypeConfiguration<WeeklyPlan>
             .IsRequired()
             .HasColumnType("date");
 
+        builder.Property(x => x.OwnerId)
+            .IsRequired()
+            .HasMaxLength(256);
+
         builder.Property(x => x.Notes)
             .HasMaxLength(1000);
 
@@ -31,7 +35,7 @@ public class WeeklyPlanConfiguration : IEntityTypeConfiguration<WeeklyPlan>
         builder.Property(x => x.CreatedAt).IsRequired();
         builder.Property(x => x.UpdatedAt).IsRequired();
 
-        builder.HasIndex(x => x.WeekStartDate).IsUnique();
+        builder.HasIndex(x => new { x.OwnerId, x.WeekStartDate }).IsUnique();
 
         builder.HasMany(x => x.Assignments)
             .WithOne(x => x.WeeklyPlan)

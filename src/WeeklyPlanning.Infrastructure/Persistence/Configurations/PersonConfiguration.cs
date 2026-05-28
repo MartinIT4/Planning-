@@ -15,6 +15,10 @@ public class PersonConfiguration : IEntityTypeConfiguration<Person>
             .IsRequired()
             .HasMaxLength(200);
 
+        builder.Property(x => x.OwnerId)
+            .IsRequired()
+            .HasMaxLength(256);
+
         builder.Property(x => x.Email)
             .IsRequired()
             .HasMaxLength(256);
@@ -28,6 +32,6 @@ public class PersonConfiguration : IEntityTypeConfiguration<Person>
         builder.Property(x => x.CreatedAt).IsRequired();
         builder.Property(x => x.UpdatedAt).IsRequired();
 
-        builder.HasIndex(x => x.Email).IsUnique();
+        builder.HasIndex(x => new { x.OwnerId, x.Email }).IsUnique();
     }
 }

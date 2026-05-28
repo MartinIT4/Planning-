@@ -20,16 +20,19 @@ public class WeeklyPlanRepository : IWeeklyPlanRepository
                 .ThenInclude(a => a.Person)
             .FirstOrDefaultAsync(p => p.Id == id, cancellationToken);
 
-    public async Task<WeeklyPlan?> GetByWeekStartDateAsync(DateOnly weekStartDate, CancellationToken cancellationToken = default) =>
+    public async Task<WeeklyPlan?> GetByWeekStartDateAsync(DateOnly weekStartDate, string ownerId, CancellationToken cancellationToken = default) =>
         await _context.WeeklyPlans
             .Include(p => p.Assignments)
                 .ThenInclude(a => a.Person)
-            .FirstOrDefaultAsync(p => p.WeekStartDate == weekStartDate, cancellationToken);
+            .FirstOrDefaultAsync(
+                p => p.WeekStartDate == weekStartDate && p.OwnerId == ownerId.ToLowerInvariant(),
+                cancellationToken);
 
-    public async Task<IEnumerable<WeeklyPlan>> GetAllAsync(CancellationToken cancellationToken = default) =>
+    public async Task<IEnumerable<WeeklyPlan>> GetAllAsync(string ownerId, CancellationToken cancellationToken = default) =>
         await _context.WeeklyPlans
             .Include(p => p.Assignments)
                 .ThenInclude(a => a.Person)
+            .Where(p => p.OwnerId == ownerId.ToLowerInvariant())
             .OrderByDescending(p => p.WeekStartDate)
             .ToListAsync(cancellationToken);
 

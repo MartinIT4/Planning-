@@ -6,6 +6,7 @@ namespace WeeklyPlanning.Domain.Entities;
 public class WeeklyPlan
 {
     public Guid Id { get; private set; }
+    public string OwnerId { get; private set; } = default!;
 
     /// <summary>Lunes de la semana planificada.</summary>
     public DateOnly WeekStartDate { get; private set; }
@@ -23,14 +24,17 @@ public class WeeklyPlan
 
     private WeeklyPlan() { }
 
-    public static WeeklyPlan Create(DateOnly weekStartDate, string? notes = null)
+    public static WeeklyPlan Create(string ownerId, DateOnly weekStartDate, string? notes = null)
     {
+        if (string.IsNullOrWhiteSpace(ownerId))
+            throw new DomainException("El owner del plan es requerido.");
         if (weekStartDate.DayOfWeek != DayOfWeek.Monday)
             throw new DomainException("La fecha de inicio del plan debe ser un lunes.");
 
         return new WeeklyPlan
         {
             Id = Guid.NewGuid(),
+            OwnerId = ownerId.Trim().ToLowerInvariant(),
             WeekStartDate = weekStartDate,
             WeekEndDate = weekStartDate.AddDays(4),
             Notes = notes?.Trim(),

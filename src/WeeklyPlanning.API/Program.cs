@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using WeeklyPlanning.API.Middleware;
+using WeeklyPlanning.API.Services;
+using WeeklyPlanning.Application.Interfaces;
 using WeeklyPlanning.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -49,6 +51,8 @@ if (connectionString.StartsWith("postgres://") || connectionString.StartsWith("p
 }
 
 builder.Services.AddInfrastructure(connectionString, builder.Configuration);
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<ICurrentUserService, CurrentUserService>();
 
 var jwtSecret = builder.Configuration["Jwt:Secret"]
     ?? throw new InvalidOperationException("Jwt:Secret is required.");

@@ -18,50 +18,52 @@ public class WeeklyPlanService : IWeeklyPlanService
     private readonly IProjectRepository _projectRepository;
     private readonly IExternalTaskCreationService _externalService;
     private readonly IConfiguration _config;
+    private readonly ICurrentUserService _currentUser;
 
     public WeeklyPlanService(
         IWeeklyPlanRepository weeklyPlanRepository,
         IPersonRepository personRepository,
         IProjectRepository projectRepository,
         IExternalTaskCreationService externalService,
-        IConfiguration config)
+        IConfiguration config,
+        ICurrentUserService currentUser)
     {
         _weeklyPlanRepository = weeklyPlanRepository;
         _personRepository = personRepository;
         _projectRepository = projectRepository;
         _externalService = externalService;
         _config = config;
+        _currentUser = currentUser;
     }
 
     public async Task<WeeklyPlanDto> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
     {
-        var plan = await _weeklyPlanRepository.GetByIdAsync(id, cancellationToken)
-            ?? throw new NotFoundException(nameof(WeeklyPlan), id);
+        var plan = await GetOwnedPlanAsync(id, cancellationToken);
         return MapToDto(plan);
     }
 
     public async Task<WeeklyPlanDto?> GetByWeekStartDateAsync(DateOnly weekStartDate, CancellationToken cancellationToken = default)
     {
-        var plan = await _weeklyPlanRepository.GetByWeekStartDateAsync(weekStartDate, cancellationToken);
+        var plan = await _weeklyPlanRepository.GetByWeekStartDateAsync(weekStartDate, _currentUser.OwnerId, cancellationToken);
         return plan is null ? null : MapToDto(plan);
     }
 
     public async Task<IEnumerable<WeeklyPlanDto>> GetAllAsync(CancellationToken cancellationToken = default)
     {
-        var plans = await _weeklyPlanRepository.GetAllAsync(cancellationToken);
+        var plans = await _weeklyPlanRepository.GetAllAsync(_currentUser.OwnerId, cancellationToken);
         return plans.Select(MapToDto);
     }
 
     public async Task<WeeklyPlanDto> CreateAsync(CreateWeeklyPlanRequest request, CancellationToken cancellationToken = default)
     {
-        var existing = await _weeklyPlanRepository.GetByWeekStartDateAsync(request.WeekStartDate, cancellationToken);
+        var existing = await _weeklyPlanRepository.GetByWeekStartDateAsync(request.WeekStartDate, _currentUser.OwnerId, cancellationToken);
         if (existing is not null)
             throw new ConflictException($"Ya existe un plan para la semana del {request.WeekStartDate:yyyy-MM-dd}.");
 
         WeeklyPlan plan;
         try
         {
-            plan = WeeklyPlan.Create(request.WeekStartDate, request.Notes);
+            plan = WeeklyPlan.Create(_currentUser.OwnerId, request.WeekStartDate, request.Notes);
         }
         catch (DomainException ex)
         {
@@ -74,8 +76,7 @@ public class WeeklyPlanService : IWeeklyPlanService
 
     public async Task<WeeklyPlanDto> UpdateAsync(Guid id, UpdateWeeklyPlanRequest request, CancellationToken cancellationToken = default)
     {
-        var plan = await _weeklyPlanRepository.GetByIdAsync(id, cancellationToken)
-            ?? throw new NotFoundException(nameof(WeeklyPlan), id);
+        var plan = await GetOwnedPlanAsync(id, cancellationToken);
 
         plan.UpdateNotes(request.Notes);
         await _weeklyPlanRepository.UpdateAsync(plan, cancellationToken);
@@ -84,8 +85,7 @@ public class WeeklyPlanService : IWeeklyPlanService
 
     public async Task<WeeklyPlanDto> UpdateStatusAsync(Guid id, UpdateWeeklyPlanStatusRequest request, CancellationToken cancellationToken = default)
     {
-        var plan = await _weeklyPlanRepository.GetByIdAsync(id, cancellationToken)
-            ?? throw new NotFoundException(nameof(WeeklyPlan), id);
+        var plan = await GetOwnedPlanAsync(id, cancellationToken);
 
         try
         {
@@ -115,11 +115,9 @@ public class WeeklyPlanService : IWeeklyPlanService
 
     public async Task<TaskAssignmentDto> AddAssignmentAsync(Guid weeklyPlanId, AddTaskAssignmentRequest request, CancellationToken cancellationToken = default)
     {
-        var plan = await _weeklyPlanRepository.GetByIdAsync(weeklyPlanId, cancellationToken)
-            ?? throw new NotFoundException(nameof(WeeklyPlan), weeklyPlanId);
+        var plan = await GetOwnedPlanAsync(weeklyPlanId, cancellationToken);
 
-        var person = await _personRepository.GetByIdAsync(request.PersonId, cancellationToken)
-            ?? throw new NotFoundException(nameof(Person), request.PersonId);
+        var person = await GetOwnedPersonAsync(request.PersonId, cancellationToken);
 
         if (!person.IsActive)
             throw new ValidationException($"La persona '{person.Name}' no está activa.");
@@ -145,8 +143,7 @@ public class WeeklyPlanService : IWeeklyPlanService
 
     public async Task<TaskAssignmentDto> UpdateAssignmentAsync(Guid weeklyPlanId, Guid assignmentId, UpdateTaskAssignmentRequest request, CancellationToken cancellationToken = default)
     {
-        var plan = await _weeklyPlanRepository.GetByIdAsync(weeklyPlanId, cancellationToken)
-            ?? throw new NotFoundException(nameof(WeeklyPlan), weeklyPlanId);
+        var plan = await GetOwnedPlanAsync(weeklyPlanId, cancellationToken);
 
         var assignment = plan.Assignments.FirstOrDefault(a => a.Id == assignmentId)
             ?? throw new NotFoundException(nameof(TaskAssignment), assignmentId);
@@ -162,14 +159,13 @@ public class WeeklyPlanService : IWeeklyPlanService
 
         await _weeklyPlanRepository.UpdateAsync(plan, cancellationToken);
 
-        var person = await _personRepository.GetByIdAsync(assignment.PersonId, cancellationToken);
-        return MapAssignmentToDto(assignment, person?.Name ?? "");
+        var person = await GetOwnedPersonAsync(assignment.PersonId, cancellationToken);
+        return MapAssignmentToDto(assignment, person.Name);
     }
 
     public async Task RemoveAssignmentAsync(Guid weeklyPlanId, Guid assignmentId, CancellationToken cancellationToken = default)
     {
-        var plan = await _weeklyPlanRepository.GetByIdAsync(weeklyPlanId, cancellationToken)
-            ?? throw new NotFoundException(nameof(WeeklyPlan), weeklyPlanId);
+        var plan = await GetOwnedPlanAsync(weeklyPlanId, cancellationToken);
 
         try
         {
@@ -185,13 +181,12 @@ public class WeeklyPlanService : IWeeklyPlanService
 
     public async Task<CapacitySummaryDto> GetCapacitySummaryAsync(Guid weeklyPlanId, CancellationToken cancellationToken = default)
     {
-        var plan = await _weeklyPlanRepository.GetByIdAsync(weeklyPlanId, cancellationToken)
-            ?? throw new NotFoundException(nameof(WeeklyPlan), weeklyPlanId);
+        var plan = await GetOwnedPlanAsync(weeklyPlanId, cancellationToken);
 
         var hoursByPerson = plan.GetHoursByPerson();
         var personIds = hoursByPerson.Keys.ToList();
 
-        var persons = await _personRepository.GetAllActiveAsync(cancellationToken);
+        var persons = await _personRepository.GetAllActiveAsync(_currentUser.OwnerId, cancellationToken);
         var personDict = persons.ToDictionary(p => p.Id);
 
         var capacities = personIds.Select(personId =>
@@ -228,14 +223,13 @@ public class WeeklyPlanService : IWeeklyPlanService
         IEnumerable<Guid> sourceAssignmentIds,
         CancellationToken cancellationToken = default)
     {
-        var plan = await _weeklyPlanRepository.GetByIdAsync(targetPlanId, cancellationToken)
-            ?? throw new NotFoundException(nameof(WeeklyPlan), targetPlanId);
+        var plan = await GetOwnedPlanAsync(targetPlanId, cancellationToken);
 
         var requestedIds = sourceAssignmentIds?.Distinct().ToHashSet() ?? [];
         if (requestedIds.Count == 0)
             return [];
 
-        var allPlans = await _weeklyPlanRepository.GetAllAsync(cancellationToken);
+        var allPlans = await _weeklyPlanRepository.GetAllAsync(_currentUser.OwnerId, cancellationToken);
         var sourceAssignments = allPlans
             .SelectMany(p => p.Assignments)
             .Where(a => requestedIds.Contains(a.Id))
@@ -281,8 +275,7 @@ public class WeeklyPlanService : IWeeklyPlanService
         Guid assignmentId,
         CancellationToken cancellationToken = default)
     {
-        var plan = await _weeklyPlanRepository.GetByIdAsync(weeklyPlanId, cancellationToken)
-            ?? throw new NotFoundException(nameof(WeeklyPlan), weeklyPlanId);
+        var plan = await GetOwnedPlanAsync(weeklyPlanId, cancellationToken);
 
         var assignment = plan.Assignments.FirstOrDefault(a => a.Id == assignmentId)
             ?? throw new NotFoundException(nameof(TaskAssignment), assignmentId);
@@ -291,9 +284,15 @@ public class WeeklyPlanService : IWeeklyPlanService
         if (assignment.SentToExternalAt.HasValue)
             return SendTaskToExternalResult.Ok(assignment.ExternalCreatedTaskId ?? $"already-sent-{assignmentId}");
 
-        var person = await _personRepository.GetByIdAsync(assignment.PersonId, cancellationToken);
-        if (person is null)
+        Person person;
+        try
+        {
+            person = await GetOwnedPersonAsync(assignment.PersonId, cancellationToken);
+        }
+        catch (NotFoundException)
+        {
             return SendTaskToExternalResult.Fail("La persona asignada no existe.", 400);
+        }
         if (!person.ChobiUserId.HasValue)
             return SendTaskToExternalResult.Fail($"'{person.Name}' no tiene configurado ChobiUserId.", 400);
 
@@ -303,7 +302,7 @@ public class WeeklyPlanService : IWeeklyPlanService
             && Guid.TryParse(assignment.ExternalTaskId[5..], out var projectGuid))
         {
             var project = await _projectRepository.GetByIdAsync(projectGuid, cancellationToken);
-            if (project is null)
+            if (project is null || !string.Equals(project.OwnerId, _currentUser.OwnerId, StringComparison.OrdinalIgnoreCase))
                 return SendTaskToExternalResult.Fail("El proyecto referenciado en la asignación no existe.", 400);
             chobiProjectId = project.ChobiProjectId;
         }
@@ -337,6 +336,28 @@ public class WeeklyPlanService : IWeeklyPlanService
         assignment.MarkAsSent(result.ExternalTaskId);
         await _weeklyPlanRepository.UpdateAsync(plan, cancellationToken);
         return result;
+    }
+
+    private async Task<WeeklyPlan> GetOwnedPlanAsync(Guid id, CancellationToken cancellationToken)
+    {
+        var plan = await _weeklyPlanRepository.GetByIdAsync(id, cancellationToken)
+            ?? throw new NotFoundException(nameof(WeeklyPlan), id);
+
+        if (!string.Equals(plan.OwnerId, _currentUser.OwnerId, StringComparison.OrdinalIgnoreCase))
+            throw new NotFoundException(nameof(WeeklyPlan), id);
+
+        return plan;
+    }
+
+    private async Task<Person> GetOwnedPersonAsync(Guid id, CancellationToken cancellationToken)
+    {
+        var person = await _personRepository.GetByIdAsync(id, cancellationToken)
+            ?? throw new NotFoundException(nameof(Person), id);
+
+        if (!string.Equals(person.OwnerId, _currentUser.OwnerId, StringComparison.OrdinalIgnoreCase))
+            throw new NotFoundException(nameof(Person), id);
+
+        return person;
     }
 
     private static WeeklyPlanDto MapToDto(WeeklyPlan plan) =>

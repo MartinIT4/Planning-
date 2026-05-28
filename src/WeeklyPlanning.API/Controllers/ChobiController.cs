@@ -16,15 +16,18 @@ public class ChobiController : ControllerBase
     private readonly IChobiReadService _chobiReadService;
     private readonly IPersonRepository _personRepository;
     private readonly IProjectRepository _projectRepository;
+    private readonly ICurrentUserService _currentUser;
 
     public ChobiController(
         IChobiReadService chobiReadService,
         IPersonRepository personRepository,
-        IProjectRepository projectRepository)
+        IProjectRepository projectRepository,
+        ICurrentUserService currentUser)
     {
         _chobiReadService = chobiReadService;
         _personRepository = personRepository;
         _projectRepository = projectRepository;
+        _currentUser = currentUser;
     }
 
     [HttpGet("users")]
@@ -42,7 +45,7 @@ public class ChobiController : ControllerBase
     public async Task<IActionResult> Sync(CancellationToken cancellationToken)
     {
         var chobiUsers = await _chobiReadService.GetUsersAsync(cancellationToken);
-        var localPersons = (await _personRepository.GetAllActiveAsync(cancellationToken)).ToList();
+        var localPersons = (await _personRepository.GetAllActiveAsync(_currentUser.OwnerId, cancellationToken)).ToList();
 
         var personsLinked = 0;
         var personsCreated = 0;
@@ -54,7 +57,7 @@ public class ChobiController : ControllerBase
 
             if (person is null)
             {
-                person = Person.Create(user.Description, null, 40);
+                person = Person.Create(_currentUser.OwnerId, user.Description, null, 40);
                 person.SetChobiUserId(user.Id);
                 await _personRepository.AddAsync(person, cancellationToken);
                 localPersons.Add(person);
@@ -71,7 +74,7 @@ public class ChobiController : ControllerBase
         }
 
         var chobiProjects = await _chobiReadService.GetProjectsAsync(cancellationToken);
-        var localProjects = (await _projectRepository.GetAllActiveAsync(cancellationToken)).ToList();
+        var localProjects = (await _projectRepository.GetAllActiveAsync(_currentUser.OwnerId, cancellationToken)).ToList();
 
         var projectsLinked = 0;
         var projectsCreated = 0;
@@ -84,7 +87,7 @@ public class ChobiController : ControllerBase
 
             if (project is null)
             {
-                project = Project.Create(chobiProject.Name, chobiProject.ClientName, chobiProject.IsBillable);
+                project = Project.Create(_currentUser.OwnerId, chobiProject.Name, chobiProject.ClientName, chobiProject.IsBillable);
                 project.SetChobiProjectId(chobiProject.Id);
                 await _projectRepository.AddAsync(project, cancellationToken);
                 localProjects.Add(project);

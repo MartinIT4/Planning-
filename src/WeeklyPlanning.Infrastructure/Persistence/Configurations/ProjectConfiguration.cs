@@ -18,6 +18,10 @@ public class ProjectConfiguration : IEntityTypeConfiguration<Project>
         builder.Property(x => x.Description)
             .HasMaxLength(500);
 
+        builder.Property(x => x.OwnerId)
+            .IsRequired()
+            .HasMaxLength(256);
+
         builder.Property(x => x.ChobiProjectId);
         builder.Property(x => x.IsActive).IsRequired();
         builder.Property(x => x.IsBillable).IsRequired();
