@@ -21,9 +21,10 @@
 
 .logo {
   display: block;
-  width: 260px;
-  max-width: 80%;
-  margin: 0 auto 1rem;
+  width: 160px;
+  height: 160px;
+  object-fit: contain;
+  margin: 0 auto 0.5rem;
 }
 
 .header {
