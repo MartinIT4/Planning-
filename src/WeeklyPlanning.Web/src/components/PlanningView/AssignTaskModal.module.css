@@ -73,8 +73,8 @@
 }
 
 .taskProject {
-  background: #dbeafe;
-  color: #1d4ed8;
+  background: #EDE0F9;
+  color: #5A1FA3;
   padding: 0.1rem 0.45rem;
   border-radius: 4px;
   font-size: 0.74rem;
@@ -109,8 +109,8 @@
 .formSelect:focus,
 .formInput:focus {
   outline: none;
-  border-color: #2563eb;
-  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.12);
+  border-color: #6F2DBD;
+  box-shadow: 0 0 0 2px rgba(111, 45, 189, 0.12);
 }
 
 .formError {
@@ -132,7 +132,7 @@
 
 .btnPrimary {
   padding: 0.5rem 1.2rem;
-  background: #2563eb;
+  background: #6F2DBD;
   color: white;
   border: none;
   border-radius: 6px;
@@ -141,9 +141,8 @@
   cursor: pointer;
   transition: background 0.15s;
 }
-
 .btnPrimary:hover:not(:disabled) {
-  background: #1d4ed8;
+  background: #5A1FA3;
 }
 
 .btnPrimary:disabled {
@@ -193,7 +192,7 @@
 
 .barUsed {
   height: 100%;
-  background: #2563eb;
+  background: #6F2DBD;
   transition: width 0.2s;
 }
 

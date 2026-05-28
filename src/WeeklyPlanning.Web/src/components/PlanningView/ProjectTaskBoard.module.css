@@ -44,7 +44,7 @@
   font-size: 0.82rem;
   background: #f8fafc;
 }
-.filterInput:focus { outline: none; border-color: #2563eb; }
+.filterInput:focus { outline: none; border-color: #6F2DBD; }
 
 .empty {
   padding: 2.5rem;
@@ -75,7 +75,7 @@
   background: white;
   box-shadow: 0 1px 3px rgba(0,0,0,0.06);
 }
-.projectCard:hover { border-color: #93c5fd; box-shadow: 0 2px 8px rgba(37,99,235,0.08); }
+.projectCard:hover { border-color: #D6C2F3; box-shadow: 0 2px 8px rgba(111,45,189,0.08); }
 
 .cardHeader {
   padding: 0.75rem 1rem 0.6rem;
@@ -102,9 +102,9 @@
   width: 26px;
   height: 26px;
   border-radius: 50%;
-  border: 2px solid #2563eb;
+  border: 2px solid #6F2DBD;
   background: white;
-  color: #2563eb;
+  color: #6F2DBD;
   font-size: 1.1rem;
   font-weight: 700;
   line-height: 1;
@@ -115,7 +115,7 @@
   transition: background 0.15s, color 0.15s;
   flex-shrink: 0;
 }
-.addBtn:hover:not(:disabled) { background: #2563eb; color: white; }
+.addBtn:hover:not(:disabled) { background: #6F2DBD; color: white; }
 .addBtn:disabled { opacity: 0.35; cursor: default; border-color: #94a3b8; color: #94a3b8; }
 .addBtnActive { background: #fee2e2; border-color: #ef4444; color: #ef4444; }
 .addBtnActive:hover:not(:disabled) { background: #ef4444; color: white; }
@@ -128,8 +128,8 @@
 
 .cardTotalHours {
   font-size: 0.78rem;
-  background: #dbeafe;
-  color: #1d4ed8;
+  background: #EDE0F9;
+  color: #5A1FA3;
   padding: 0.15rem 0.55rem;
   border-radius: 9999px;
   font-weight: 700;
@@ -183,8 +183,8 @@
 .memberHours {
   font-size: 0.82rem;
   font-weight: 700;
-  color: #2563eb;
-  background: #eff6ff;
+  color: #6F2DBD;
+  background: #F5EFFE;
   padding: 0.1rem 0.45rem;
   border-radius: 9999px;
 }
@@ -218,20 +218,20 @@
 
 .editBtn {
   background: none;
-  border: 1px solid #93c5fd;
-  color: #2563eb;
+  border: 1px solid #D6C2F3;
+  color: #6F2DBD;
   border-radius: 4px;
   font-size: 0.72rem;
   padding: 0.1rem 0.45rem;
   cursor: pointer;
   transition: background 0.15s;
 }
-.editBtn:hover { background: #eff6ff; }
+.editBtn:hover { background: #F5EFFE; }
 
 /* ── Add member form ── */
 .addForm {
   padding: 0.75rem 1rem;
-  border-top: 2px solid #2563eb;
+  border-top: 2px solid #6F2DBD;
   background: #f8fafc;
   display: flex;
   flex-direction: column;
@@ -253,7 +253,7 @@
   font-size: 0.8rem;
   background: white;
 }
-.formSelect:focus { outline: none; border-color: #2563eb; }
+.formSelect:focus { outline: none; border-color: #6F2DBD; }
 
 .hoursGroup {
   display: flex;
@@ -270,7 +270,7 @@
   font-size: 0.8rem;
   text-align: center;
 }
-.hoursInput:focus { outline: none; border-color: #2563eb; }
+.hoursInput:focus { outline: none; border-color: #6F2DBD; }
 
 .hLabel { font-size: 0.78rem; color: #94a3b8; }
 .overWarn { font-size: 0.85rem; cursor: default; }
@@ -285,7 +285,7 @@
   font-family: inherit;
   box-sizing: border-box;
 }
-.descInput:focus { outline: none; border-color: #2563eb; }
+.descInput:focus { outline: none; border-color: #6F2DBD; }
 
 .formError {
   font-size: 0.78rem;
@@ -303,7 +303,7 @@
 
 .btnPrimary {
   padding: 0.4rem 1rem;
-  background: #2563eb;
+  background: #6F2DBD;
   color: white;
   border: none;
   border-radius: 5px;
@@ -311,7 +311,7 @@
   font-weight: 600;
   cursor: pointer;
 }
-.btnPrimary:hover:not(:disabled) { background: #1d4ed8; }
+.btnPrimary:hover:not(:disabled) { background: #5A1FA3; }
 .btnPrimary:disabled { opacity: 0.5; cursor: default; }
 
 .btnSecondary {
@@ -412,7 +412,7 @@
 }
 
 .paHours {
-  color: #2563eb;
+  color: #6F2DBD;
   font-weight: 700;
   white-space: nowrap;
   margin-left: 0.4rem;

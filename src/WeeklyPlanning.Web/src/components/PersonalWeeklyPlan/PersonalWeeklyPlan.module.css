@@ -9,10 +9,10 @@
   --color-border:   #e2e8f0;
   --color-text:     #1e293b;
   --color-muted:    #64748b;
-  --color-primary:  #3b82f6;
+  --color-primary:  #6F2DBD;
   --color-danger:   #ef4444;
   --color-success:  #22c55e;
-  --color-today:    #eff6ff;
+  --color-today:    #F5EFFE;
   --radius:         8px;
   --shadow:         0 1px 4px rgba(0,0,0,.08);
 
@@ -85,7 +85,7 @@
   text-transform: uppercase;
   letter-spacing: .05em;
 }
-.status_Draft     { background: #e0f2fe; color: #0369a1; }
+.status_Draft     { background: #F5EFFE; color: #6F2DBD; }
 .status_Confirmed { background: #dcfce7; color: #15803d; }
 
 /* ── Mutating banner ────────────────────────────────────────── */
@@ -172,8 +172,8 @@
 .dayHours {
   font-size: .75rem;
   font-weight: 600;
-  background: #e0f2fe;
-  color: #0369a1;
+  background: #EDE0F9;
+  color: #5A1FA3;
   padding: .1rem .4rem;
   border-radius: 4px;
 }
@@ -242,8 +242,8 @@
 .hoursChip {
   font-size: .72rem;
   font-weight: 700;
-  background: #e0f2fe;
-  color: #0369a1;
+  background: #EDE0F9;
+  color: #5A1FA3;
   padding: .1rem .4rem;
   border-radius: 4px;
   white-space: nowrap;
@@ -290,7 +290,7 @@
 }
 .externalLink {
   font-size: .72rem;
-  color: #2563eb;
+  color: #6F2DBD;
   font-weight: 600;
   text-decoration: none;
 }
@@ -343,7 +343,7 @@
   cursor: pointer;
   transition: background .15s;
 }
-.btnPrimary:hover:not(:disabled) { background: #2563eb; }
+.btnPrimary:hover:not(:disabled) { background: #5A1FA3; }
 .btnPrimary:disabled { opacity: .6; cursor: not-allowed; }
 
 .btnSecondary {
@@ -459,7 +459,7 @@
 .input:focus, .select:focus, .textarea:focus {
   outline: none;
   border-color: var(--color-primary);
-  box-shadow: 0 0 0 2px rgba(59,130,246,.2);
+  box-shadow: 0 0 0 2px rgba(111,45,189,.2);
 }
 .textarea { resize: vertical; }
 

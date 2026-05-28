@@ -103,7 +103,7 @@ function AppShell({ userName, onLogout }: { userName: string; onLogout: () => vo
               {!isCurrentBoardWeek && (
                 <button
                   onClick={() => setBoardWeek(currentWeek)}
-                  style={{ border: '1px solid #3b82f6', color: '#3b82f6', background: '#fff', borderRadius: 6, padding: '0.3rem 0.75rem', cursor: 'pointer', fontSize: '0.85rem', fontWeight: 500 }}
+                  style={{ border: '1px solid #6F2DBD', color: '#6F2DBD', background: '#fff', borderRadius: 6, padding: '0.3rem 0.75rem', cursor: 'pointer', fontSize: '0.85rem', fontWeight: 500 }}
                 >
                   Hoy
                 </button>
@@ -170,7 +170,7 @@ function AppShell({ userName, onLogout }: { userName: string; onLogout: () => vo
               {!isCurrentPersonalWeek && (
                 <button
                   onClick={() => setPersonalWeek(currentWeek)}
-                  style={{ border: '1px solid #3b82f6', color: '#3b82f6', background: '#fff', borderRadius: 6, padding: '0.3rem 0.75rem', cursor: 'pointer', fontSize: '0.85rem', fontWeight: 500 }}
+                  style={{ border: '1px solid #6F2DBD', color: '#6F2DBD', background: '#fff', borderRadius: 6, padding: '0.3rem 0.75rem', cursor: 'pointer', fontSize: '0.85rem', fontWeight: 500 }}
                 >
                   Hoy
                 </button>

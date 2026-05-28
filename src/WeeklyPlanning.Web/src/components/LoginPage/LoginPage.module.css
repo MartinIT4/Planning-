@@ -4,7 +4,7 @@
   align-items: center;
   justify-content: center;
   padding: 2rem;
-  background: linear-gradient(180deg, #eff6ff 0%, #f8fafc 100%);
+  background: linear-gradient(135deg, #F5EFFE 0%, #ffffff 100%);
 }
 
 .card {
@@ -17,6 +17,12 @@
   border-radius: 16px;
   background: #ffffff;
   box-shadow: 0 20px 45px rgba(15, 23, 42, 0.12);
+}
+
+.logo {
+  display: block;
+  width: 120px;
+  margin: 0 auto 0.75rem;
 }
 
 .header {
@@ -55,8 +61,8 @@
 
 .field input:focus {
   outline: none;
-  border-color: #2563eb;
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+  border-color: #6F2DBD;
+  box-shadow: 0 0 0 3px rgba(111, 45, 189, 0.15);
 }
 
 .error {
@@ -72,7 +78,7 @@
   padding: 0.85rem 1rem;
   border: none;
   border-radius: 10px;
-  background: #2563eb;
+  background: #6F2DBD;
   color: #fff;
   font-size: 1rem;
   font-weight: 700;
@@ -81,7 +87,7 @@
 }
 
 .submit:hover:not(:disabled) {
-  background: #1d4ed8;
+  background: #5A1FA3;
   transform: translateY(-1px);
 }
 

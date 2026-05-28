@@ -37,7 +37,7 @@
 
 .filterInput:focus {
   outline: none;
-  border-color: #2563eb;
+  border-color: #6F2DBD;
   background: white;
 }
 
@@ -53,7 +53,7 @@
 
 .seedBtn {
   padding: 0.5rem 1.2rem;
-  background: #2563eb;
+  background: #6F2DBD;
   color: white;
   border: none;
   border-radius: 6px;
@@ -62,7 +62,7 @@
 }
 
 .seedBtn:hover:not(:disabled) {
-  background: #1d4ed8;
+  background: #5A1FA3;
 }
 
 .seedBtn:disabled {
@@ -150,7 +150,7 @@
 }
 
 .item:hover {
-  border-color: #93c5fd;
+  border-color: #D6C2F3;
   background: white;
 }
 
@@ -171,8 +171,8 @@
 
 .itemProject {
   font-size: 0.75rem;
-  background: #dbeafe;
-  color: #1d4ed8;
+  background: #EDE0F9;
+  color: #5A1FA3;
   padding: 0.1rem 0.45rem;
   border-radius: 4px;
   white-space: nowrap;
@@ -206,7 +206,7 @@
 }
 
 .status_in_progress {
-  background: #dbeafe;
+  background: #EDE0F9;
   color: #1e40af;
 }
 
@@ -218,7 +218,7 @@
 .assignBtn {
   align-self: flex-end;
   padding: 0.3rem 0.8rem;
-  background: #2563eb;
+  background: #6F2DBD;
   color: white;
   border: none;
   border-radius: 5px;
@@ -228,5 +228,5 @@
 }
 
 .assignBtn:hover {
-  background: #1d4ed8;
+  background: #5A1FA3;
 }

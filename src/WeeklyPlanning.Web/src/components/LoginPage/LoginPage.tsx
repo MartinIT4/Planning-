@@ -27,6 +27,7 @@ export function LoginPage() {
     <div className={styles.page}>
       <form className={styles.card} onSubmit={handleSubmit}>
         <div className={styles.header}>
+          <img src="/logo-it4.png" alt="IT4W" className={styles.logo} />
           <h1>Weekly Planning PM</h1>
           <p>Ingresá con tus credenciales de Chrobi.</p>
         </div>

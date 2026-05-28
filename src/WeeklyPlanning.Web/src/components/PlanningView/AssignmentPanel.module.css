@@ -137,8 +137,8 @@
 .editBtn {
   padding: 0.1rem 0.35rem;
   background: none;
-  border: 1px solid #93c5fd;
-  color: #2563eb;
+  border: 1px solid #D6C2F3;
+  color: #6F2DBD;
   border-radius: 4px;
   font-size: 0.72rem;
   cursor: pointer;
@@ -147,7 +147,7 @@
 }
 
 .editBtn:hover {
-  background: #eff6ff;
+  background: #F5EFFE;
 }
 
 .removeBtn {

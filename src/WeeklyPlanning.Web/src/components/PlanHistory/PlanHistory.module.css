@@ -9,7 +9,7 @@
 
 .planCard {
   background: #fff;
-  border: 1px solid #dbeafe;
+  border: 1px solid #EDE0F9;
   border-radius: 10px;
   box-shadow: 0 1px 4px rgba(15, 23, 42, 0.06);
   overflow: hidden;
@@ -38,8 +38,8 @@
 }
 
 .statusConfirmed {
-  background: #dbeafe;
-  color: #1d4ed8;
+  background: #EDE0F9;
+  color: #5A1FA3;
 }
 
 .statusClosed {
@@ -53,9 +53,9 @@
 }
 
 .expandBtn {
-  border: 1px solid #bfdbfe;
-  background: #eff6ff;
-  color: #1d4ed8;
+  border: 1px solid #D6C2F3;
+  background: #F5EFFE;
+  color: #6F2DBD;
   border-radius: 6px;
   padding: 0.35rem 0.7rem;
   font-size: 0.82rem;
@@ -89,7 +89,7 @@
   align-items: center;
   font-size: 0.86rem;
   font-weight: 700;
-  color: #1d4ed8;
+  color: #6F2DBD;
   cursor: pointer;
   user-select: none;
 }
@@ -99,15 +99,14 @@
   align-items: flex-start;
   gap: 0.6rem;
   padding: 0.55rem 0.7rem;
-  border: 1px solid #dbeafe;
-  border-radius: 8px;
+  border: 1px solid #EDE0F9;
   background: #fff;
   font-size: 0.88rem;
 }
 
 .checkbox {
   margin-top: 0.15rem;
-  accent-color: #3b82f6;
+  accent-color: #6F2DBD;
 }
 
 .actionBar {
@@ -120,14 +119,14 @@
   flex-wrap: wrap;
   padding: 0.9rem 1rem;
   background: rgba(255, 255, 255, 0.96);
-  border: 1px solid #dbeafe;
+  border: 1px solid #EDE0F9;
   border-radius: 10px;
   box-shadow: 0 1px 4px rgba(15, 23, 42, 0.05);
 }
 
 .copyBtn {
-  border: 1px solid #3b82f6;
-  background: #3b82f6;
+  border: 1px solid #6F2DBD;
+  background: #6F2DBD;
   color: #fff;
   border-radius: 6px;
   padding: 0.45rem 0.9rem;

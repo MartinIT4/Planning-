@@ -27,7 +27,7 @@
   transition: color 0.15s, border-color 0.15s;
 }
 .tab:hover { color: #1e293b; }
-.tab.active { color: #2563eb; border-bottom-color: #2563eb; font-weight: 600; }
+.tab.active { color: #6F2DBD; border-bottom-color: #6F2DBD; font-weight: 600; }
 
 .content {
   flex: 1;
@@ -87,7 +87,7 @@
 
 .btnPrimary {
   padding: 0.45rem 1rem;
-  background: #2563eb;
+  background: #6F2DBD;
   color: #fff;
   border: none;
   border-radius: 6px;
@@ -95,8 +95,8 @@
   font-weight: 500;
   cursor: pointer;
 }
-.btnPrimary:hover { background: #1d4ed8; }
-.btnPrimary:disabled { background: #93c5fd; cursor: not-allowed; }
+.btnPrimary:hover { background: #5A1FA3; }
+.btnPrimary:disabled { background: #C4A0E8; cursor: not-allowed; }
 
 .btnSecondary {
   padding: 0.4rem 0.8rem;
@@ -150,7 +150,7 @@
   font-size: 0.875rem; background: #fff;
 }
 .formGroup input:focus, .formGroup select:focus, .formGroup textarea:focus {
-  outline: none; border-color: #2563eb; box-shadow: 0 0 0 2px #dbeafe;
+  outline: none; border-color: #6F2DBD; box-shadow: 0 0 0 2px #EDE0F9;
 }
 .formActions { display: flex; gap: 0.5rem; margin-top: 0.5rem; }
 

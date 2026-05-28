@@ -20,7 +20,10 @@ export function NavBar({ activeTab, onTabChange, userName, onLogout }: NavBarPro
 
   return (
     <nav className={styles.navbar}>
-      <div className={styles.brand}>Weekly Planning PM</div>
+      <div className={styles.brand}>
+        <img src="/logo-it4.png" alt="IT4W" className={styles.brandLogo} />
+        Weekly Planning PM
+      </div>
       <div className={styles.tabs}>
         {tabs.map((t) => (
           <button

@@ -148,7 +148,7 @@ export function TeamWeeklyBoard({ weekStartDate }: TeamWeeklyBoardProps) {
           <div style="background:white;border:1px solid #e2e8f0;border-radius:8px;padding:10px 12px;margin-bottom:8px;">
             <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;">
               <span style="font-size:13px;font-weight:600;color:#1e293b;flex:1;">${a.taskTitle}</span>
-              <span style="font-size:13px;font-weight:700;color:#2563eb;white-space:nowrap;">${a.plannedHours}h</span>
+              <span style="font-size:13px;font-weight:700;color:#6F2DBD;white-space:nowrap;">${a.plannedHours}h</span>
             </div>
             ${notes}
           </div>`;
@@ -157,7 +157,7 @@ export function TeamWeeklyBoard({ weekStartDate }: TeamWeeklyBoardProps) {
       return `
         <div style="flex:1;min-width:200px;max-width:300px;background:#f8fafc;border-radius:10px;padding:12px;">
           <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;padding-bottom:10px;border-bottom:2px solid #e2e8f0;">
-            <div style="width:36px;height:36px;border-radius:50%;background:#2563eb;color:white;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:16px;flex-shrink:0;">
+            <div style="width:36px;height:36px;border-radius:50%;background:#6F2DBD;color:white;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:16px;flex-shrink:0;">
               ${name.charAt(0).toUpperCase()}
             </div>
             <div>

@@ -4,16 +4,26 @@
   gap: 1rem;
   padding: 0 1.5rem;
   min-height: 52px;
-  background: #2563eb;
+  background: #0F1C3F;
   color: white;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
 }
 
 .brand {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
   font-weight: 700;
   font-size: 1rem;
   letter-spacing: 0.02em;
   white-space: nowrap;
+}
+
+.brandLogo {
+  height: 28px;
+  width: auto;
+  object-fit: contain;
+  filter: brightness(0) invert(1);
 }
 
 .tabs {

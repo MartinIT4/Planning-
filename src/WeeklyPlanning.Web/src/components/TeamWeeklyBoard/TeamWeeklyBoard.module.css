@@ -52,14 +52,14 @@
 }
 
 .sendBtn {
-  border: 1px solid #3b82f6;
-  background: #3b82f6;
+  border: 1px solid #6F2DBD;
+  background: #6F2DBD;
   color: #ffffff;
 }
 
 .sendBtn:hover:not(:disabled) {
-  background: #2563eb;
-  border-color: #2563eb;
+  background: #5A1FA3;
+  border-color: #5A1FA3;
 }
 
 .secondaryBtn:disabled,
@@ -130,15 +130,14 @@
   width: 16px;
   height: 16px;
   cursor: pointer;
-  accent-color: #3b82f6;
-  flex-shrink: 0;
+  accent-color: #6F2DBD;
 }
 
 .personAvatar {
   width: 32px;
   height: 32px;
   border-radius: 999px;
-  background: #3b82f6;
+  background: #6F2DBD;
   color: #ffffff;
   display: flex;
   align-items: center;
@@ -147,7 +146,6 @@
   font-weight: 700;
   flex-shrink: 0;
 }
-
 .personInfo {
   min-width: 0;
 }
@@ -195,12 +193,12 @@
 
 .checkbox {
   margin-top: 0.15rem;
-  accent-color: #3b82f6;
+  accent-color: #6F2DBD;
 }
 
 .quickSendBtn {
-  border: 1px solid #3b82f6;
-  color: #3b82f6;
+  border: 1px solid #6F2DBD;
+  color: #6F2DBD;
   background: transparent;
   border-radius: 4px;
   padding: 0.1rem 0.4rem;
@@ -212,7 +210,7 @@
 }
 
 .quickSendBtn:hover:not(:disabled) {
-  background: #3b82f6;
+  background: #6F2DBD;
   color: #fff;
 }
 
@@ -254,8 +252,8 @@
   flex-shrink: 0;
   font-size: 0.75rem;
   font-weight: 700;
-  color: #0369a1;
-  background: #e0f2fe;
+  color: #5A1FA3;
+  background: #EDE0F9;
   border-radius: 999px;
   padding: 0.15rem 0.45rem;
   white-space: nowrap;
@@ -336,7 +334,7 @@
   width: 34px;
   height: 34px;
   border: 3px solid #e2e8f0;
-  border-top-color: #3b82f6;
+  border-top-color: #6F2DBD;
   border-radius: 50%;
   animation: spin 0.75s linear infinite;
 }

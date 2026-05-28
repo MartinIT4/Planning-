@@ -25,7 +25,7 @@
   width: 32px;
   height: 32px;
   border: 3px solid #e2e8f0;
-  border-top-color: #2563eb;
+  border-top-color: #6F2DBD;
   border-radius: 50%;
   animation: spin 0.7s linear infinite;
 }
@@ -101,7 +101,7 @@
 
 .selectorSelect:focus {
   outline: none;
-  border-color: #2563eb;
+  border-color: #6F2DBD;
 }
 
 .statusBadge {
@@ -169,7 +169,7 @@
 
 .formInput:focus {
   outline: none;
-  border-color: #2563eb;
+  border-color: #6F2DBD;
 }
 
 .formActions {
@@ -193,7 +193,7 @@
 
 .btnPrimary {
   padding: 0.42rem 1rem;
-  background: #2563eb;
+  background: #6F2DBD;
   color: white;
   border: none;
   border-radius: 6px;
@@ -205,7 +205,7 @@
 }
 
 .btnPrimary:hover:not(:disabled) {
-  background: #1d4ed8;
+  background: #5A1FA3;
 }
 
 .btnPrimary:disabled {

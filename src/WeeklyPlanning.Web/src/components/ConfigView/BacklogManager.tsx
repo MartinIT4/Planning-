@@ -206,7 +206,7 @@ export function BacklogManager() {
                       <span style={{
                         fontSize: '0.75rem', padding: '0.2rem 0.5rem', borderRadius: 9999,
                         background: item.status === 'in_progress' ? '#dbeafe' : '#f1f5f9',
-                        color: item.status === 'in_progress' ? '#1d4ed8' : '#475569',
+                        color: item.status === 'in_progress' ? '#6F2DBD' : '#475569',
                       }}>
                         {item.status === 'todo' ? 'Pendiente' : item.status === 'in_progress' ? 'En curso' : item.status}
                       </span>
