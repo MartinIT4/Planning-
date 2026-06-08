@@ -32,8 +32,7 @@ public class TaskAssignmentConfiguration : IEntityTypeConfiguration<TaskAssignme
         builder.Property(x => x.CreatedAt).IsRequired();
         builder.Property(x => x.UpdatedAt).IsRequired();
 
-        // Evita duplicar la misma tarea externa para la misma persona en el mismo plan
-        builder.HasIndex(x => new { x.WeeklyPlanId, x.PersonId, x.ExternalTaskId }).IsUnique();
+        builder.HasIndex(x => new { x.WeeklyPlanId, x.PersonId });
 
         builder.HasOne(x => x.Person)
             .WithMany()
