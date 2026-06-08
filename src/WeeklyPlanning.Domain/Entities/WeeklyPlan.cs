@@ -84,11 +84,6 @@ public class WeeklyPlan
         if (Status == WeeklyPlanStatus.Closed)
             throw new DomainException("No se pueden agregar asignaciones a un plan cerrado.");
 
-        var existing = _assignments.FirstOrDefault(a =>
-            a.PersonId == personId && a.ExternalTaskId == externalTaskId);
-        if (existing is not null)
-            throw new DomainException($"La tarea '{externalTaskId}' ya está asignada a esta persona en este plan.");
-
         var assignment = TaskAssignment.Create(Id, personId, externalTaskId, taskTitle, plannedHours, notes);
         _assignments.Add(assignment);
         UpdatedAt = DateTime.UtcNow;

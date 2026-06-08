@@ -235,15 +235,12 @@ public class WeeklyPlanService : IWeeklyPlanService
             .Where(a => requestedIds.Contains(a.Id))
             .ToList();
 
-        var existingKeys = plan.Assignments
-            .Select(a => $"{a.PersonId:N}|{a.ExternalTaskId}")
-            .ToHashSet();
+        var alreadyCopiedIds = new HashSet<Guid>();
 
         var copied = new List<TaskAssignmentDto>();
         foreach (var assignment in sourceAssignments)
         {
-            var key = $"{assignment.PersonId:N}|{assignment.ExternalTaskId}";
-            if (!existingKeys.Add(key))
+            if (!alreadyCopiedIds.Add(assignment.Id))
                 continue;
 
             TaskAssignment newAssignment;
