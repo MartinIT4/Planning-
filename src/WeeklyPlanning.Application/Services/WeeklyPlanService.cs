@@ -1,4 +1,3 @@
-using Microsoft.Extensions.Configuration;
 using WeeklyPlanning.Application.DTOs;
 using WeeklyPlanning.Application.Exceptions;
 using WeeklyPlanning.Application.Interfaces;
@@ -11,13 +10,11 @@ namespace WeeklyPlanning.Application.Services;
 
 public class WeeklyPlanService : IWeeklyPlanService
 {
-    private const int DefaultCreatorUserId = 162;
-
     private readonly IWeeklyPlanRepository _weeklyPlanRepository;
     private readonly IPersonRepository _personRepository;
     private readonly IProjectRepository _projectRepository;
     private readonly IExternalTaskCreationService _externalService;
-    private readonly IConfiguration _config;
+    private readonly IChobiReadService _chobiReadService;
     private readonly ICurrentUserService _currentUser;
 
     public WeeklyPlanService(
@@ -25,14 +22,14 @@ public class WeeklyPlanService : IWeeklyPlanService
         IPersonRepository personRepository,
         IProjectRepository projectRepository,
         IExternalTaskCreationService externalService,
-        IConfiguration config,
+        IChobiReadService chobiReadService,
         ICurrentUserService currentUser)
     {
         _weeklyPlanRepository = weeklyPlanRepository;
         _personRepository = personRepository;
         _projectRepository = projectRepository;
         _externalService = externalService;
-        _config = config;
+        _chobiReadService = chobiReadService;
         _currentUser = currentUser;
     }
 
@@ -307,7 +304,10 @@ public class WeeklyPlanService : IWeeklyPlanService
         if (!chobiProjectId.HasValue)
             return SendTaskToExternalResult.Fail("La asignación no tiene un proyecto Chrobi vinculado.", 400);
 
-        var creatorUserId = int.TryParse(_config["ExternalApi:CreatorUserId"], out var cid) ? cid : DefaultCreatorUserId;
+        var creatorChobiUserId = await ResolveCreatorChobiUserIdAsync(cancellationToken);
+        if (!creatorChobiUserId.HasValue)
+            return SendTaskToExternalResult.Fail(
+                "No tenés vinculado tu usuario de Chrobi. Agregate como persona con tu email y vinculala en Equipo.", 400);
 
         // Use the user's custom description as the task title in Chrobi (e.g. "Gestión de proyecto"),
         // falling back to the cached project/task name only if no description was provided.
@@ -324,7 +324,7 @@ public class WeeklyPlanService : IWeeklyPlanService
             ChobiProjectId: chobiProjectId,
             WeekStartDate: plan.WeekStartDate,
             WeekEndDate: plan.WeekEndDate,
-            CreatorChobiUserId: creatorUserId);
+            CreatorChobiUserId: creatorChobiUserId.Value);
 
         var result = await _externalService.SendAsync(request, cancellationToken);
         if (!result.Success || string.IsNullOrWhiteSpace(result.ExternalTaskId))
@@ -355,6 +355,39 @@ public class WeeklyPlanService : IWeeklyPlanService
             throw new NotFoundException(nameof(Person), id);
 
         return person;
+    }
+
+    /// <summary>
+    /// Resuelve el ChobiUserId del PM actualmente logueado (no del asignado de la tarea).
+    /// Si el PM no tiene todavía su propio registro de Person, lo crea; si no está
+    /// vinculado a Chrobi, intenta vincularlo automáticamente por coincidencia de nombre
+    /// contra la lista de usuarios activos de Chrobi.
+    /// </summary>
+    private async Task<int?> ResolveCreatorChobiUserIdAsync(CancellationToken cancellationToken)
+    {
+        var self = await _personRepository.GetByEmailAsync(
+            _currentUser.OwnerId, _currentUser.OwnerId, cancellationToken);
+
+        if (self is null)
+        {
+            self = Person.Create(_currentUser.OwnerId, _currentUser.UserName, _currentUser.OwnerId);
+            await _personRepository.AddAsync(self, cancellationToken);
+        }
+
+        if (!self.ChobiUserId.HasValue)
+        {
+            var chobiUsers = await _chobiReadService.GetUsersAsync(cancellationToken);
+            var match = chobiUsers.FirstOrDefault(u =>
+                string.Equals(u.Description, self.Name, StringComparison.OrdinalIgnoreCase));
+
+            if (match is not null)
+            {
+                self.SetChobiUserId(match.Id);
+                await _personRepository.UpdateAsync(self, cancellationToken);
+            }
+        }
+
+        return self.ChobiUserId;
     }
 
     private static WeeklyPlanDto MapToDto(WeeklyPlan plan) =>

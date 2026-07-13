@@ -1,4 +1,3 @@
-using Microsoft.Extensions.Configuration;
 using WeeklyPlanning.Application.DTOs;
 using WeeklyPlanning.Application.Interfaces;
 using WeeklyPlanning.Domain.Entities;
@@ -8,23 +7,24 @@ namespace WeeklyPlanning.Application.Services;
 
 public class PersonalPlanService
 {
-    private const int DefaultCreatorUserId = 162;
-
     private readonly IPersonalPlanRepository _repo;
     private readonly IPersonRepository _personRepo;
     private readonly IExternalTaskCreationService _externalService;
-    private readonly IConfiguration _config;
+    private readonly IChobiReadService _chobiReadService;
+    private readonly ICurrentUserService _currentUser;
 
     public PersonalPlanService(
         IPersonalPlanRepository repo,
         IPersonRepository personRepo,
         IExternalTaskCreationService externalService,
-        IConfiguration config)
+        IChobiReadService chobiReadService,
+        ICurrentUserService currentUser)
     {
         _repo = repo;
         _personRepo = personRepo;
         _externalService = externalService;
-        _config = config;
+        _chobiReadService = chobiReadService;
+        _currentUser = currentUser;
     }
 
     public async Task<PersonalWeeklyPlanDto?> GetByOwnerAndWeekAsync(string ownerId, DateOnly weekStartDate, CancellationToken ct = default)
@@ -68,9 +68,12 @@ public class PersonalPlanService
             return SendTaskToExternalResult.Fail("El ítem del plan no existe.", 404);
 
         var owner = await ResolveOwnerAsync(plan.OwnerId, ct);
-        var creatorUserId = ResolveCreatorUserId();
+        var creatorUserId = await ResolveCreatorChobiUserIdAsync(ct);
+        if (!creatorUserId.HasValue)
+            return SendTaskToExternalResult.Fail(
+                "No tenés vinculado tu usuario de Chrobi. Agregate como persona con tu email y vinculala en Equipo.", 400);
 
-        return await SendItemToExternalInternalAsync(plan, item, owner, creatorUserId, ct);
+        return await SendItemToExternalInternalAsync(plan, item, owner, creatorUserId.Value, ct);
     }
 
     public async Task<PublishPersonalPlanToExternalResult> PublishWeekToExternalAsync(Guid planId, CancellationToken ct = default)
@@ -80,12 +83,17 @@ public class PersonalPlanService
             return new PublishPersonalPlanToExternalResult(false, "El plan personal no existe.", []);
 
         var owner = await ResolveOwnerAsync(plan.OwnerId, ct);
-        var creatorUserId = ResolveCreatorUserId();
+        var creatorUserId = await ResolveCreatorChobiUserIdAsync(ct);
+        if (!creatorUserId.HasValue)
+            return new PublishPersonalPlanToExternalResult(
+                false,
+                "No tenés vinculado tu usuario de Chrobi. Agregate como persona con tu email y vinculala en Equipo.",
+                []);
 
         var results = new List<PersonalPlanItemExternalPublishResult>();
         foreach (var item in plan.Items)
         {
-            var result = await SendItemToExternalInternalAsync(plan, item, owner, creatorUserId, ct);
+            var result = await SendItemToExternalInternalAsync(plan, item, owner, creatorUserId.Value, ct);
             results.Add(new PersonalPlanItemExternalPublishResult(
                 item.Id,
                 item.Title,
@@ -150,10 +158,37 @@ public class PersonalPlanService
         return await _personRepo.GetByEmailAsync(ownerId, ct);
     }
 
-    private int ResolveCreatorUserId() =>
-        int.TryParse(_config["ExternalApi:CreatorUserId"], out var creatorUserId)
-            ? creatorUserId
-            : DefaultCreatorUserId;
+    /// <summary>
+    /// Resuelve el ChobiUserId del PM actualmente logueado. Si el PM no tiene todavía
+    /// su propio registro de Person, lo crea; si no está vinculado a Chrobi, intenta
+    /// vincularlo automáticamente por coincidencia de nombre contra la lista de
+    /// usuarios activos de Chrobi.
+    /// </summary>
+    private async Task<int?> ResolveCreatorChobiUserIdAsync(CancellationToken ct)
+    {
+        var self = await _personRepo.GetByEmailAsync(_currentUser.OwnerId, _currentUser.OwnerId, ct);
+
+        if (self is null)
+        {
+            self = Person.Create(_currentUser.OwnerId, _currentUser.UserName, _currentUser.OwnerId);
+            await _personRepo.AddAsync(self, ct);
+        }
+
+        if (!self.ChobiUserId.HasValue)
+        {
+            var chobiUsers = await _chobiReadService.GetUsersAsync(ct);
+            var match = chobiUsers.FirstOrDefault(u =>
+                string.Equals(u.Description, self.Name, StringComparison.OrdinalIgnoreCase));
+
+            if (match is not null)
+            {
+                self.SetChobiUserId(match.Id);
+                await _personRepo.UpdateAsync(self, ct);
+            }
+        }
+
+        return self.ChobiUserId;
+    }
 
     private static PersonalWeeklyPlanDto MapDto(PersonalWeeklyPlan p) => new(
         p.Id, p.OwnerId, p.WeekStartDate, p.WeekEndDate, p.Status, p.Notes,
